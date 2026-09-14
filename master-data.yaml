@@ -1,0 +1,80 @@
+# Master Content for Chirayu Babu Jaysawal Resume
+personal_info:
+  name: "Chirayu Babu Jaysawal"
+  headline: "Computer Engineering Student | Building Full-Stack Web Applications"
+  university: "Visvesvaraya Technological University (VTU), India"
+  degree: "Bachelor of Engineering in Computer Engineering"
+  cgpa: "8.5 / 10.0 (through 7th semester)"
+  email: "chirayujayaswal7@gmail.com"
+  github: "https://github.com/Crusty-chirayu"
+  linkedin: "https://linkedin.com/in/chirayu-babu-jaysawal"
+  location: "India"
+
+skills:
+  languages:
+    - Python
+    - C
+    - C++
+    - Java
+    - TypeScript
+    - JavaScript
+    - SQL
+  frontend:
+    - React.js
+    - Next.js
+    - Tailwind CSS
+    - HTML5
+    - CSS3
+  backend:
+    - Node.js
+    - Express.js
+    - REST APIs
+    - WebSockets
+    - JWT
+  databases:
+    - PostgreSQL
+    - MySQL
+  ai_ml:
+    - Gemini API
+    - OpenCV
+    - Prompt Engineering
+    - Agentic Workflows
+  tools:
+    - Git
+    - GitHub
+    - Docker
+    - Linux/WSL
+    - VS Code
+    - Cursor
+
+projects:
+  - title: "ReForge"
+    description: "AI Software Re-Engineering Platform"
+  - title: "Group-Chatbot"
+    description: "Real-Time AI Chat Platform"
+  - title: "EDU-SHARE"
+    description: "Knowledge Exchange Platform"
+  - title: "Envoy"
+    description: "AI Career Agent"
+  - title: "CartIQ"
+    description: "AI Shopping Assistant"
+  - title: "Hotel Management System"
+    description: "Java Desktop Application"
+
+experience:
+  - position: "Intern"
+    organization: "TBD"
+    period: "202X–202X"
+    description: "TBD"
+
+certifications:
+  - name: "TBD"
+    issuer: "TBD"
+    date: "TBD"
+
+education:
+  - degree: "Bachelor of Engineering in Computer Engineering"
+    university: "Visvesvaraya Technological University"
+    location: "Bangalore, IN"
+    year: "2027"
+    cgpa: "8.5 / 10.0 (7th semester)"
