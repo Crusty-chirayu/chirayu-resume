@@ -1,2 +1,11 @@
-% ATS Template - Minimal styling, ATS-friendly
-% Keep black & white, no extra rules
+% Conservative, machine-readable typography.
+\geometry{margin=0.62in}
+\usepackage{mathpazo}
+\usepackage{xcolor}
+\definecolor{sectioncolor}{RGB}{0,0,0}
+\newcommand{\resumeName}{\Large\bfseries}
+\newcommand{\resumeHeadline}{\normalsize}
+\usepackage{titlesec}
+\titleformat{\section}{\color{sectioncolor}\bfseries\large}{}{0pt}{}[\titlerule]
+\titlespacing*{\section}{0pt}{7pt}{3pt}
+\setlist[itemize]{leftmargin=16pt,itemsep=1pt,topsep=2pt}

@@ -1,0 +1,4 @@
+name: general
+summary: "Computer Engineering student building practical software across web, AI, and desktop applications."
+skills: [languages, frontend, backend, databases, ai_ml, tools]
+projects: [reforge, group-chatbot, edu-share, envoy, cartiq, hotel-management]

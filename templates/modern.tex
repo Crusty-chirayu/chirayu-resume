@@ -1,2 +1,11 @@
-% Modern Template - Slight visual enhancements
-% Could include subtle shading, different font, etc.
+% Refined hierarchy with a restrained blue accent.
+\geometry{margin=0.7in}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\definecolor{sectioncolor}{RGB}{20,75,105}
+\newcommand{\resumeName}{\Huge\bfseries\color{sectioncolor}}
+\newcommand{\resumeHeadline}{\large\itshape}
+\usepackage{titlesec}
+\titleformat{\section}{\color{sectioncolor}\bfseries\Large}{}{0pt}{}
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\setlist[itemize]{leftmargin=18pt,itemsep=3pt,topsep=3pt}

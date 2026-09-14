@@ -7,4 +7,6 @@
 *.synctex.gz
 *.pdf
 build/
+dist/
+generated/*.tex
 .DS_Store
