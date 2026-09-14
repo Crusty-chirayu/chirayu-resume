@@ -29,8 +29,10 @@ jobs:
         with:
           root_file: generated/${{ matrix.profile }}-${{ matrix.template }}.tex
           latexmk_use_xelatex: true
-      - name: Build named PDF
-        run: python build.py --profile "${{ matrix.profile }}" --template "${{ matrix.template }}"
+      - name: Name compiled PDF
+        run: |
+          mkdir -p dist
+          cp "generated/${{ matrix.profile }}-${{ matrix.template }}.pdf" "dist/Chirayu-Babu-Jaysawal-${{ matrix.profile }}-${{ matrix.template }}.pdf"
       - name: Validate PDF
         run: python tests/validate_pdf.py "dist/Chirayu-Babu-Jaysawal-${{ matrix.profile }}-${{ matrix.template }}.pdf"
       - uses: actions/upload-artifact@v4
