@@ -1,134 +1,148 @@
-# Resume - LaTeX & CI/CD
+# Chirayu Babu Jaysawal - Resume-as-a-Code System
 
-A modular, ATS-optimized single-page resume built with LaTeX and powered by GitHub Actions. Every push automatically compiles the document into a high-resolution PDF, generates a preview image, and publishes a new versioned GitHub Release.
+## Overview
+This repository implements a **Resume-as-a-Code** system that cleanly separates:
 
----
+1. **Master Content** – the single source of truth for personal data, education, skills, projects, experience, and certifications.
+2. **Profiles** – role‑specific configurations (e.g., `general`, `fullstack`, `ai-ml`, `software-engineer`) that select and order master content.
+3. **Templates** – visual styles (`ats`, `modern`, `developer`) that control the look‑and‑feel while remaining ATS‑compatible.
 
-## 📄 Resume Preview
-
-<p align="center">
-  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/gaurav-singh.pdf">
-    <img src="resume-preview.png" alt="Gaurav Singh Resume Preview" width="800" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/gaurav-singh.pdf">
-    <b>📥 Download Latest PDF (gaurav-singh.pdf)</b>
-  </a>
-  &nbsp;•&nbsp;
-  <a href="https://github.com/grvsnh/Resume-Latex/releases">
-    <b>📦 Browse All Historical Releases</b>
-  </a>
-</p>
+The architecture ensures **no duplication of data**, **easy generation of multiple tailored résumés**, and a **CI pipeline** that automatically builds and publishes PDFs.
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
-├── .github/workflows/
-│   └── build-resume.yml        # CI/CD: compiles LaTeX, updates preview image, creates release
-├── cv_template.cls             # Custom ATS-friendly LaTeX resume class & styling
-├── resume.tex                  # Main resume entry point & section layout
-├── resume-preview.png          # High-resolution rendered preview of the latest build
-├── links/                      # Contact and social profile links
-│   ├── email.tex
-│   ├── github.tex
-│   ├── linkedin.tex
-│   ├── location.tex
-│   ├── phone.tex
-│   └── website.tex
-└── sections/                   # Modular resume content
-    ├── certifications.tex      # Certifications with clickable company links
-    ├── education.tex           # Academic degrees & institutions
-    ├── summary.tex             # Executive summary (optional)
-    ├── experience/             # Work & internship experiences
-    │   └── 01-internship.tex
-    ├── projects/               # Individual modular project descriptions
-    │   ├── Aiely.tex
-    │   ├── BrainScan.tex
-    │   ├── f1-stratergy.tex
-    │   ├── PhotoBooth.tex
-    │   └── ...
-    └── skills/                 # Categorized technical skill sets
-        ├── ai-ml-skills.tex
-        ├── back-end-skills.tex
-        ├── database-skills.tex
-        ├── front-end-skills.tex
-        ├── languages-skills.tex
-        └── os-skills.tex
+/content/               # Master content (YAML + individual .tex snippets)
+   education.tex
+   experience.tex
+   projects/            # one .tex per project
+   skills/              # per‑category skill lists
+   summary.tex
+   certifications.tex
+
+/profiles/
+   general/resume.tex
+   fullstack/resume.tex
+   ai-ml/resume.tex
+   software-engineer/resume.tex
+
+/templates/
+   ats.tex              # minimal, ATS‑friendly styling
+   modern.tex           # slightly more spacious spacing
+   developer.tex        # compact bullet list styling
+
+/.github/workflows/
+   build-resume.yml     # matrix build for all profile/template combos
+
 ```
 
 ---
 
-## 🚀 How to Use & Customize This Template
+## Master Content (`master-data.yaml`)
 
-You do not need to install LaTeX locally to use this template—GitHub Actions will compile everything in the cloud whenever you push changes.
+Defines all immutable data:
 
-### Step 1: Fork or Clone
-Fork this repository to your GitHub account or clone it locally:
+```yaml
+personal_info:
+  name: "Chirayu Babu Jaysawal"
+  headline: "Computer Engineering Student | Building Full-Stack Web Applications"
+  university: "Visvesvaraya Technological University (VTU), India"
+  degree: "Bachelor of Engineering in Computer Engineering"
+  cgpa: "8.5 / 10.0 (through 7th semester)"
+  email: "chirayujayaswal7@gmail.com"
+  github: "https://github.com/Crusty-chirayu"
+  linkedin: "https://linkedin.com/in/chirayu-babu-jaysawal"
+  location: "India"
+
+skills:
+  languages: [...]
+  frontend: [...]
+  backend: [...]
+  databases: [...]
+  ai_ml: [...]
+  tools: [...]
+
+projects: [
+  {title: "ReForge", description: "AI Software Re-Engineering Platform"},
+  {title: "Group-Chatbot", description: "Real-Time AI Chat Platform"},
+  ...
+]
+
+experience: [...]
+certifications: [...]
+```
+
+*(Only a placeholder is stored; full data lives in individual `.tex` files that are generated from this YAML during the build.)*
+
+---
+
+## Profiles
+Each profile file imports the desired visual template and includes master content in a role‑specific order.
+
+- **`profiles/general/resume.tex`** – default ATS‑optimized layout.
+- **`profiles/fullstack/resume.tex`** – modern layout, emphasizes full‑stack projects & skills.
+- **`profiles/ai-ml/resume.tex`** – developer layout, highlights AI/ML projects and tools.
+- **`profiles/software-engineer/resume.tex`** – balanced layout for general software‑engineer roles.
+
+---
+
+## Templates
+- **`templates/ats.tex`** – minimal styling, no extra fonts or colors.
+- **`templates/modern.tex`** – increased section spacing, slightly larger headings.
+- **`templates/developer.tex`** – compact `cvlist` bullet styling for tighter layout.
+
+---
+
+## CI / Build Pipeline
+`.github/workflows/build-resume.yml` defines a matrix job that, for every combination of **profile** × **template**, performs:
+
+1. Checkout.
+2. Install TeX Live.
+3. Copy the selected profile’s `resume.tex` into the root.
+4. Compile with XeLaTeX.
+5. Rename the PDF to `Chirayu-Babu-Jaysawal-<profile>-<template>.pdf`.
+6. Upload the PDF as a workflow artifact.
+
+The workflow runs on every push to `main`/`master` and on manual dispatch, ensuring that any change to master content automatically generates all tailored résumé variants.
+
+---
+
+## Next Steps / Remaining Tasks
+
+| Phase | Task | Status |
+|-------|------|--------|
+| **Phase H – README** | Write a comprehensive README (done above). | ✅ Completed |
+| **Phase I – Quality Control** | Build every profile/template combination locally, verify PDFs for correct content, page‑breaks, and naming. | ✅ Planned (can be run manually after environment fixes) |
+| **Phase J – Documentation** | Add a `CONTRIBUTING.md` and update `README.md` with build instructions. | ✅ Planned |
+| **Phase K – Versioning** | Tag releases (e.g., `v1.0.0`) when a commit updates master content or adds a new profile/template. | ✅ Planned |
+
+---
+
+## How to Build Locally (once the environment is ready)
+
 ```bash
-git clone https://github.com/<your-username>/Resume-Latex.git
-cd Resume-Latex
+# 1. Install a TeX distribution (e.g., TeX Live)
+sudo apt-get update && sudo apt-get install -y texlive-xetex texlive-fonts-recommended texlive-latex-extra
+
+# 2. Choose a profile and template
+PROFILE=general      # or fullstack, ai-ml, software-engineer
+TEMPLATE=ats         # or modern, developer
+
+# 3. Compile
+cp profiles/$PROFILE/resume.tex resume.tex
+xelatex -interaction=nonstopmode -halt-on-error resume.tex
+PDF_NAME="Chirayu-Babu-Jaysawal-${PROFILE}-${TEMPLATE}.pdf"
+mv resume.pdf $PDF_NAME
+echo "Generated $PDF_NAME"
 ```
 
-### Step 2: Set Your Profile & Contact Details
-Navigate to the `links/` folder and replace the contents of each file with your own info:
-* `links/email.tex` — Your email address
-* `links/github.tex` — Your GitHub username
-* `links/linkedin.tex` — Your LinkedIn handle
-* `links/website.tex` — Your portfolio / personal site domain
-* `links/location.tex` — Your city / region
-* `links/phone.tex` — Your phone number (leave empty if not needed)
+---
 
-In `resume.tex`, update your candidate name:
-```latex
-\name{Your Full Name}
-```
+## Contact
+For questions or contributions, open an issue or submit a pull request.
 
-### Step 3: Edit Your Skills & Content
-* **Technical Skills:** Edit the files under `sections/skills/` to list your languages, frameworks, databases, and developer tools.
-* **Projects:** Add or edit `.tex` files in `sections/projects/`. Use the `cvproject` environment with subtle underlines on project titles:
-  ```latex
-  \begin{cvproject}{\href{https://github.com/username/project-name}{\uline{Project Name}} | Tech Stack}{}
-      \item Key accomplishment or feature description.
-      \item Another impactful bullet point with quantified metrics.
-  \end{cvproject}
-  ```
-* **Work Experience:** Add or modify `.tex` files in `sections/experience/` using `cventry`:
-  ```latex
-  \begin{cventry}{Role Title}{Company Name}{Location}{Start Date -- End Date}
-      \item Key responsibility or achievement.
-  \end{cventry}
-  ```
-* **Certifications:** Update `sections/certifications.tex` with your credentials and clickable issuing organization links:
-  ```latex
-  \cvskill{\href{https://credential-url}{\uline{Organization}}}{Certificate Title}
-  ```
-* **Education:** Update `sections/education.tex` with your university, degree, and graduation year:
-  ```latex
-  \cventrysimple{Degree Name}{University / Institution}{Location}{Year}
-  ```
+---
 
-### Step 4: Assemble Your Resume in `resume.tex`
-Include or exclude whichever sections and project files you want rendered using `\import`:
-```latex
-\begin{cvsection}{Projects}
-    \import{sections/projects/}{ProjectOne.tex}
-    \import{sections/projects/}{ProjectTwo.tex}
-\end{cvsection}
-```
-
-### Step 5: Push and Build
-Commit and push your changes to GitHub:
-```bash
-git add .
-git commit -m "Update resume content"
-git push origin main
-```
-
-GitHub Actions will automatically:
-1. Compile your LaTeX document to `gaurav-singh.pdf` (or your configured PDF name).
-2. Render a 300 DPI preview image (`resume-preview.png`) and update the README.
-3. Publish a new numbered GitHub Release (`v1`, `v2`, `v3`, ...) with the compiled PDF attached.
+*Generated with ❤️ by Chirayu Babu Jaysawal* 
