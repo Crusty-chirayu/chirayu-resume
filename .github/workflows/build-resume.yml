@@ -32,7 +32,9 @@ jobs:
       - name: Name compiled PDF
         run: |
           mkdir -p dist
-          cp "generated/${{ matrix.profile }}-${{ matrix.template }}.pdf" "dist/Chirayu-Babu-Jaysawal-${{ matrix.profile }}-${{ matrix.template }}.pdf"
+          pdf_path=$(find . -type f -name "${{ matrix.profile }}-${{ matrix.template }}.pdf" -print -quit)
+          test -n "$pdf_path"
+          cp "$pdf_path" "dist/Chirayu-Babu-Jaysawal-${{ matrix.profile }}-${{ matrix.template }}.pdf"
       - name: Validate PDF
         run: python tests/validate_pdf.py "dist/Chirayu-Babu-Jaysawal-${{ matrix.profile }}-${{ matrix.template }}.pdf"
       - uses: actions/upload-artifact@v4
