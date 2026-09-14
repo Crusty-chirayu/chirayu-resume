@@ -1,0 +1,58 @@
+\documentclass{cv_template}
+
+% Candidate Profile & Tagline
+\name{Gaurav Singh}
+\tagline{AI Engineer | Computer Vision \& LLM Systems}
+
+% Set-and-Forget Links: Automatically fetches from links/
+\email
+\linkedin
+\github
+\website
+\location
+
+\begin{document}
+\begin{fitpage}
+
+% Render Header
+\makecvheader
+
+% --- Professional Summary ---
+\begin{cvsection}{Summary}
+    \import{sections/}{summary.tex}
+\end{cvsection}
+
+% --- Education ---
+\begin{cvsection}{Education}
+    \import{sections/}{education.tex}
+\end{cvsection}
+
+% --- Technical Skills ---
+\begin{cvsection}{Technical Skills}
+    \import{sections/skills/}{ai-ml-skills.tex}
+    \import{sections/skills/}{back-end-skills.tex}
+    \import{sections/skills/}{languages-skills.tex}
+    \import{sections/skills/}{database-skills.tex}
+\end{cvsection}
+
+% --- Projects ---
+\begin{cvsection}{Projects}
+    \import{sections/projects/}{Image-Colourizer.tex}
+    \import{sections/projects/}{BrainScan.tex}
+    \import{sections/projects/}{Aiely.tex}
+\end{cvsection}
+
+% --- Professional Experience ---
+% \begin{cvsection}{Experience}
+%     \import{sections/experience/}{01-internship.tex}
+% \end{cvsection}
+
+% --- Certifications ---
+\begin{cvsection}{Certifications}
+    \import{sections/}{certifications.tex}
+\end{cvsection}
+
+\end{fitpage}
+\end{document}
+
+
