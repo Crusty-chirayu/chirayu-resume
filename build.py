@@ -78,7 +78,7 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
         r"\usepackage{hyperref}",
         r"\usepackage{enumitem}",
         r"\usepackage{geometry}",
-        r"\input{../templates/" + template + r".tex}",
+        r"\input{templates/" + template + r".tex}",
         r"\begin{document}",
         r"\begin{center}",
         r"{\resumeName " + latex_escape(personal["name"]) + r"}",
