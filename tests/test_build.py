@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
 PROFILES = ["general", "fullstack", "java", "ai-ml", "software-engineer"]
-TEMPLATES = ["ats", "modern", "developer"]
+TEMPLATES = ["ats", "modern", "developer", "minimal", "executive", "technical", "editorial", "terminal"]
 
 
 class BuildMatrixTests(unittest.TestCase):
@@ -28,7 +28,7 @@ class BuildMatrixTests(unittest.TestCase):
         for template in TEMPLATES:
             subprocess.run([sys.executable, "build.py", "--profile", "general", "--template", template, "--validate-only"], cwd=ROOT, check=True)
             outputs.append((ROOT / "generated" / f"general-{template}.tex").read_text(encoding="utf-8"))
-        self.assertEqual(len(set(outputs)), 3)
+        self.assertEqual(len(set(outputs)), len(TEMPLATES))
 
     def test_profiles_change_project_selection(self):
         outputs = []

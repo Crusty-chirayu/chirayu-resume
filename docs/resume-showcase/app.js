@@ -12,25 +12,62 @@
     {
       id: "ats",
       label: "ATS",
-      tagline: "Conservative, machine-readable layout",
+      tagline: "Recruiter-friendly, dense, machine-readable layout.",
       preview: "assets/previews/general-ats.png",
       pdf: "assets/pdfs/Chirayu-Babu-Jaysawal-general-ats.pdf"
     },
     {
       id: "modern",
       label: "Modern",
-      tagline: "Larger hierarchy with a restrained blue accent",
+      tagline: "Clean contemporary presentation with strong visual hierarchy.",
       preview: "assets/previews/general-modern.png",
       pdf: "assets/pdfs/Chirayu-Babu-Jaysawal-general-modern.pdf"
     },
     {
       id: "developer",
       label: "Developer",
-      tagline: "Compact technical layout with a green monospace accent",
+      tagline: "Classic centred serif with compact developer-style sections.",
       preview: "assets/previews/general-developer.png",
       pdf: "assets/pdfs/Chirayu-Babu-Jaysawal-general-developer.pdf"
+    },
+    {
+      id: "minimal",
+      label: "Minimal",
+      tagline: "Extremely clean, restrained, typography-first design.",
+      preview: "assets/previews/general-minimal.png",
+      pdf: "assets/pdfs/Chirayu-Babu-Jaysawal-general-minimal.pdf"
+    },
+    {
+      id: "executive",
+      label: "Executive",
+      tagline: "Premium senior-engineer style with strong hierarchy.",
+      preview: "assets/previews/general-executive.png",
+      pdf: "assets/pdfs/Chirayu-Babu-Jaysawal-general-executive.pdf"
+    },
+    {
+      id: "technical",
+      label: "Technical",
+      tagline: "Dense engineering layout emphasizing skills and projects.",
+      preview: "assets/previews/general-technical.png",
+      pdf: "assets/pdfs/Chirayu-Babu-Jaysawal-general-technical.pdf"
+    },
+    {
+      id: "editorial",
+      label: "Editorial",
+      tagline: "Elegant magazine-inspired typography and spacing.",
+      preview: "assets/previews/general-editorial.png",
+      pdf: "assets/pdfs/Chirayu-Babu-Jaysawal-general-editorial.pdf"
+    },
+    {
+      id: "terminal",
+      label: "Terminal",
+      tagline: "Subtle coding aesthetics — professional and printable.",
+      preview: "assets/previews/general-terminal.png",
+      pdf: "assets/pdfs/Chirayu-Babu-Jaysawal-general-terminal.pdf"
     }
   ];
+
+  var PORTFOLIO_URL = "https://portfolio-lac-kappa-49.vercel.app";
 
   var DEFAULT_ID = "ats";
 

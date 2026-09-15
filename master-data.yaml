@@ -7,6 +7,7 @@ personal_info:
   email: "chirayujayaswal7@gmail.com"
   github: "https://github.com/Crusty-chirayu"
   linkedin: "https://linkedin.com/in/chirayu-babu-jaysawal"
+  portfolio: "https://portfolio-lac-kappa-49.vercel.app"
   location: "India"
 
 skills:
@@ -41,6 +42,7 @@ projects:
     subtitle: "Knowledge Exchange Platform"
     description: "Collaborative academic resource-sharing platform organized by institution, course, and subject."
     tech: [React.js, Next.js, Tailwind CSS, Node.js, JWT, PostgreSQL]
+    github: "https://github.com/Crusty-chirayu/Edu-share"
     bullets:
       - "Built structured taxonomy indexing enabling cross-university peer discovery of study materials."
       - "Built end-to-end document workflows supporting organized paper, note, and syllabus distribution."
@@ -63,6 +65,7 @@ projects:
     subtitle: "Java Desktop Application"
     description: "Java desktop application for hotel booking and guest management."
     tech: [Java, SQL, MySQL]
+    github: "https://github.com/Crusty-chirayu/HMS"
     bullets:
       - "Java Swing application integrated with MySQL for centralized hotel operations and record management."
 

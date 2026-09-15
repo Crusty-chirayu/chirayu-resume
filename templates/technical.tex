@@ -1,0 +1,77 @@
+% ================================================================
+% Technical template
+% Dense engineering-focused layout emphasizing skills and projects.
+% Distinct traits: sans-serif body with monospace details, numbered
+% section headings (01, 02, ...), slate-gray palette, skills and tech
+% stacks set in monospace, tight margins for maximum information
+% density, prompt-style bullets.
+% ================================================================
+\geometry{letterpaper, margin=0.34in, top=0.28in, bottom=0.26in}
+\usepackage[scaled=0.92]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+\definecolor{slate}{RGB}{55,63,75}
+\definecolor{ink}{RGB}{30,34,40}
+\definecolor{steel}{RGB}{92,102,118}
+
+\renewcommand{\normalsize}{\fontsize{8.7}{10.0}\selectfont}
+\renewcommand{\small}{\fontsize{8.0}{9.2}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{7.5}{8.7}\selectfont}
+\renewcommand{\large}{\fontsize{10.6}{12.2}\selectfont}
+\renewcommand{\Large}{\fontsize{12.6}{14.4}\selectfont}
+\renewcommand{\LARGE}{\fontsize{15.0}{17.2}\selectfont}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=slate,
+  linkcolor=slate,
+  pdfborder={0 0 0},
+  pdftitle={Chirayu Babu Jaysawal - Resume},
+  pdfauthor={Chirayu Babu Jaysawal},
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.9pt}
+
+\newcommand{\ResumeSep}{\hspace{0.45em}{\color{steel}\textbar}\hspace{0.45em}}
+
+% ---- Header: left-aligned, engineering-report style ----
+\newcommand{\ResumeTop}[5]{%
+\noindent{\color{ink}\LARGE\bfseries #1}\hspace{0.8em}{\color{steel}\normalsize #2}\\[2.6pt]
+{\footnotesize\color{ink} #3}\\[0.3pt]
+{\footnotesize\color{steel} #4}\\[0.3pt]
+{\footnotesize\color{steel} #5}%
+\par\vspace{2pt}\noindent{\color{slate}\rule{\textwidth}{1.6pt}}\par\vspace{1pt}%
+}
+
+% ---- Section headings: numbered (01, 02, ...) with monospace index ----
+\newcommand{\TechnicalHeading}[1]{%
+  {\color{steel}\ttfamily\footnotesize 0\arabic{section}}\hspace{0.7em}%
+  {\color{ink}\bfseries\MakeUppercase{#1}}}
+\titleformat{\section}
+  {\fontsize{9.4}{11.0}\selectfont}{}{0pt}{\TechnicalHeading}%
+  [\vspace{0.4pt}{\color{steel}\titlerule[0.6pt]}]
+\titlespacing*{\section}{0pt}{5pt}{1.5pt}
+
+\newcommand{\ResumeParagraph}[1]{\noindent #1\par}
+\newcommand{\ResumeEntryHead}[2]{\noindent{\bfseries #1}\hfill{\color{steel}\ttfamily\small #2}\par}
+\newcommand{\ResumeEntrySub}[2]{\noindent{\color{steel} #1}\hfill{\color{steel} #2}\par}
+\newcommand{\ResumeSkillLine}[2]{\noindent{\color{slate}\bfseries #1}\hspace{0.5em}{\ttfamily\small #2}\par}
+\newcommand{\ResumeProjectHead}[2]{\noindent{\color{ink}\bfseries #1}\hfill{\color{steel}\ttfamily\footnotesize #2}\par}
+\newcommand{\ResumeProjectDesc}[1]{\noindent #1\par}
+\newcommand{\ResumeSoftSkills}[1]{\noindent\textbf{Soft skills:}{\ttfamily\small #1}\par}
+
+\newenvironment{resumebullets}%
+  {\begin{itemize}[leftmargin=11pt,itemsep=0.4pt,topsep=0.6pt,parsep=0pt,partopsep=0pt,
+    label={\color{steel}\ttfamily\footnotesize >}]}%
+  {\end{itemize}}
+
+% Three-column skills block for engineering density.
+\newenvironment{resumeskills}%
+  {\begin{multicols}{2}\setlength{\columnsep}{14pt}}%
+  {\end{multicols}}

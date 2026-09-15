@@ -87,6 +87,15 @@ a { color: var(--accent); }
 
 .template-switch { margin-top: clamp(1.6rem, 4vw, 2.4rem); }
 
+.template-switch__title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 0.6rem;
+}
+
 .template-switch__buttons {
   display: inline-flex;
   gap: 0.4rem;
@@ -96,6 +105,7 @@ a { color: var(--accent); }
   border-radius: 999px;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 100%;
 }
 
 .template-switch__buttons button {
@@ -272,7 +282,7 @@ a { color: var(--accent); }
 
 @media (max-width: 480px) {
   .template-switch__buttons { width: 100%; border-radius: var(--radius); }
-  .template-switch__buttons button { flex: 1 1 30%; padding: 0.68rem 0.5rem; }
+  .template-switch__buttons button { flex: 1 1 40%; padding: 0.68rem 0.5rem; }
   .btn { flex: 1 1 100%; justify-content: center; }
 }
 

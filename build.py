@@ -98,6 +98,9 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
         r"\usepackage{hyperref}",
         r"\usepackage{enumitem}",
         r"\usepackage{geometry}",
+        r"\usepackage{latexsym}",  # arrow glyph for compact project links
+        r"% Compact inline project GitHub link; templates may redefine the style.",
+        r"\providecommand{\ResumeGitHubLink}[1]{\href{#1}{\mbox{GitHub\,\raisebox{0.1ex}{$\scriptstyle\nearrow$}}}}",
         r"\input{templates/" + template + r".tex}",
         r"\pagestyle{empty}",
         r"\begin{document}",
@@ -136,6 +139,10 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
         subtitle = latex_escape(project.get("subtitle", "") or "")
         if subtitle:
             title = title + f" -- {subtitle}"
+        github_url = str(project.get("github", "") or "").strip()
+        if github_url:
+            # Compact inline link keeps title and repository on one line.
+            title = title + rf" {{\ResumeGitHubLink{{{github_url}}}}}"
         lines.append(rf"\ResumeProjectHead{{{title}}}{{{latex_escape(tech)}}}")
         lines.append(rf"\ResumeProjectDesc{{{latex_escape(project.get('description', ''))}}}")
         bullets = project.get("bullets") or []
@@ -187,8 +194,8 @@ def compile_command(compiler: str, job_dir: Path, output: Path) -> list[str]:
 
 
 def build(profile_name: str, template: str, compile_pdf: bool) -> Path:
-    if template not in {"ats", "modern", "developer"} or not (TEMPLATES / f"{template}.tex").is_file():
-        raise ValueError("Unknown template. Expected one of: ats, modern, developer")
+    if template not in {"ats", "modern", "developer", "minimal", "executive", "technical", "editorial", "terminal"} or not (TEMPLATES / f"{template}.tex").is_file():
+        raise ValueError("Unknown template. Expected one of: ats, modern, developer, minimal, executive, technical, editorial, terminal")
     data = load_yaml(ROOT / "master-data.yaml")
     validate_master(data)
     profile = profile_data(profile_name)

@@ -19,8 +19,9 @@
     <p class="hero__headline">Computer Engineering Student<br class="hero__break" /> Full-Stack Developer</p>
 
     <nav class="template-switch" aria-label="Resume template selection">
-      <div class="template-switch__buttons" role="group" id="template-buttons">
-        <!-- buttons injected by app.js -->
+      <p class="template-switch__title" id="template-selector-title">Resume Templates</p>
+      <div class="template-switch__buttons" role="group" aria-labelledby="template-selector-title" id="template-buttons">
+        <!-- buttons injected by app.js from the template registry -->
       </div>
       <p class="template-switch__status" id="template-status" role="status" aria-live="polite"></p>
     </nav>
@@ -46,6 +47,10 @@
         <a class="btn btn--ghost" id="download-pdf" href="#" download>
           <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download PDF
+        </a>
+        <a class="btn btn--ghost" id="portfolio-link" href="https://portfolio-lac-kappa-49.vercel.app" target="_blank" rel="noopener" aria-label="Open portfolio website in a new tab">
+          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h5a2 2 0 0 1 2 2v5"/><path d="M21 3l-9 9"/><path d="M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg>
+          Portfolio
         </a>
       </div>
       <p class="actions__hint" id="actions-hint"></p>

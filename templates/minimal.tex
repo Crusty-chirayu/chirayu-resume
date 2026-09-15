@@ -1,0 +1,71 @@
+% ================================================================
+% Minimal template
+% Extremely restrained, typography-focused design.
+% Distinct traits: airy margins, Computer Modern serif, NO rules or
+% color, small-caps tracked section headings, centered header with
+% generous vertical rhythm, two-column skills.
+% ================================================================
+\geometry{letterpaper, margin=0.52in, top=0.42in, bottom=0.42in}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+\definecolor{ink}{RGB}{20,20,20}
+\definecolor{faint}{RGB}{120,120,120}
+
+\renewcommand{\normalsize}{\fontsize{9.2}{11.6}\selectfont}
+\renewcommand{\small}{\fontsize{8.5}{10.6}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{7.9}{10.0}\selectfont}
+\renewcommand{\large}{\fontsize{11.0}{13.8}\selectfont}
+\renewcommand{\Large}{\fontsize{12.8}{15.8}\selectfont}
+\renewcommand{\LARGE}{\fontsize{14.6}{17.8}\selectfont}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=ink,
+  linkcolor=ink,
+  pdfborder={0 0 0},
+  pdftitle={Chirayu Babu Jaysawal - Resume},
+  pdfauthor={Chirayu Babu Jaysawal},
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.4pt}
+
+\newcommand{\ResumeSep}{\hspace{0.55em}{\color{faint}\textperiodcentered}\hspace{0.55em}}
+
+% ---- Header: centered, airy, no rules ----
+\newcommand{\ResumeTop}[5]{%
+\begin{center}
+  {\LARGE #1}\\[2.4pt]
+  {\small\itshape #2}\\[4.2pt]
+  {\footnotesize\color{faint} #3}\\[0.5pt]
+  {\footnotesize\color{faint} #4}\\[0.5pt]
+  {\footnotesize\color{faint} #5}
+\end{center}\vspace{2pt}%
+}
+
+% ---- Section headings: tracked small caps, no rules ----
+\titleformat{\section}
+  {\color{faint}\scshape\fontsize{8.6}{11.0}\selectfont\bfseries}{}{0pt}{}%
+\titlespacing*{\section}{0pt}{7pt}{2pt}
+
+\newcommand{\ResumeParagraph}[1]{\noindent #1\par}
+\newcommand{\ResumeEntryHead}[2]{\noindent\textbf{#1}\hfill{\color{faint} #2}\par}
+\newcommand{\ResumeEntrySub}[2]{\noindent{\itshape #1}\hfill{\color{faint} #2}\par}
+\newcommand{\ResumeSkillLine}[2]{{\bfseries #1}\,{\color{faint}\textperiodcentered}\,{#2}\\[1.2pt]}
+\newcommand{\ResumeProjectHead}[2]{\noindent\textbf{#1}\hfill{\color{faint}\small #2}\par}
+\newcommand{\ResumeProjectDesc}[1]{\noindent #1\par}
+\newcommand{\ResumeSoftSkills}[1]{\noindent{\color{faint} #1}\par}
+
+\newenvironment{resumebullets}%
+  {\begin{itemize}[leftmargin=12pt,itemsep=1.2pt,topsep=1.2pt,parsep=0pt,partopsep=0pt,
+    label={\color{faint}\textendash}]}%
+  {\end{itemize}}
+
+\newenvironment{resumeskills}%
+  {\begin{multicols}{2}\setlength{\columnsep}{24pt}}%
+  {\end{multicols}}

@@ -1,0 +1,76 @@
+% ================================================================
+% Executive template
+% Premium senior-engineer style with strong hierarchy.
+% Distinct traits: Times serif with a deep navy accent, very large
+% name, left accent-bar section headings in tracked uppercase,
+% right-aligned bold dates, single-column skills with navy labels.
+% ================================================================
+\geometry{letterpaper, margin=0.42in, top=0.32in, bottom=0.30in}
+\usepackage{newtxtext}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{needspace}
+
+\definecolor{navy}{RGB}{15,43,84}
+\definecolor{ink}{RGB}{24,28,34}
+\definecolor{muted}{RGB}{96,104,116}
+
+\renewcommand{\normalsize}{\fontsize{9.0}{11.2}\selectfont}
+\renewcommand{\small}{\fontsize{8.3}{10.2}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{7.8}{9.6}\selectfont}
+\renewcommand{\large}{\fontsize{11.4}{13.8}\selectfont}
+\renewcommand{\Large}{\fontsize{13.6}{16.4}\selectfont}
+\renewcommand{\LARGE}{\fontsize{17.5}{21.0}\selectfont}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=navy,
+  linkcolor=navy,
+  pdfborder={0 0 0},
+  pdftitle={Chirayu Babu Jaysawal - Resume},
+  pdfauthor={Chirayu Babu Jaysawal},
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.0pt}
+
+\newcommand{\ResumeSep}{\hspace{0.5em}{\color{navy}\textbullet}\hspace{0.5em}}
+
+% ---- Header: executive wordmark with navy plate ----
+\newcommand{\ResumeTop}[5]{%
+\noindent{\color{ink}\LARGE\bfseries #1}\\[1.4pt]
+\noindent{\color{navy}\large\bfseries #2}\\[4.2pt]
+{\color{muted}\rule{\textwidth}{0.9pt}}\\[2.4pt]
+{\footnotesize #3}\\[0.4pt]
+{\footnotesize #4}\\[0.4pt]
+{\footnotesize #5}%
+\par\vspace{2pt}%
+}
+
+% ---- Section headings: navy accent bar + tracked uppercase ----
+\newcommand{\ExecutiveHeading}[1]{%
+  {\color{navy}\rule[-1.6pt]{2.6pt}{9pt}}\hspace{5pt}%
+  {\color{ink}\bfseries\MakeUppercase{#1}}}
+\titleformat{\section}
+  {\fontsize{9.8}{11.6}\selectfont}{}{0pt}{\ExecutiveHeading}%
+\titlespacing*{\section}{0pt}{7pt}{2pt}
+
+\newcommand{\ResumeParagraph}[1]{\noindent #1\par}
+\newcommand{\ResumeEntryHead}[2]{\noindent{\bfseries #1}\hfill{\color{navy}\bfseries #2}\par}
+\newcommand{\ResumeEntrySub}[2]{\noindent{\color{muted} #1}\hfill{\color{muted} #2}\par}
+\newcommand{\ResumeSkillLine}[2]{\noindent{\color{navy}\bfseries #1}\hspace{0.6em}#2\par}
+\newcommand{\ResumeProjectHead}[2]{\needspace{2\baselineskip}%
+  \noindent{\color{ink}\bfseries #1}\hfill{\color{muted}\small\itshape #2}\par}
+\newcommand{\ResumeProjectDesc}[1]{\noindent #1\par}
+\newcommand{\ResumeSoftSkills}[1]{\noindent #1\par}
+
+\newenvironment{resumebullets}%
+  {\begin{itemize}[leftmargin=12pt,itemsep=0.8pt,topsep=0.8pt,parsep=0pt,partopsep=0pt,
+    label={\color{navy}\textbf{\textendash}}]}%
+  {\end{itemize}}
+
+\newenvironment{resumeskills}%
+  {\setlength{\parskip}{1.0pt}}%
+  {}

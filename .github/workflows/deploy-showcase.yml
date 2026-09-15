@@ -39,16 +39,21 @@ jobs:
         run: pip install -r requirements.txt
       - name: Generate LaTeX via the existing engine
         run: |
-          for template in ats modern developer; do
+          for template in ats modern developer minimal executive technical editorial terminal; do
             python build.py --profile general --template "$template" --validate-only
           done
-      - name: Compile the three showcase PDFs
+      - name: Compile the showcase PDFs
         uses: xu-cheng/latex-action@v3
         with:
           root_file: |
             generated/general-ats.tex
             generated/general-modern.tex
             generated/general-developer.tex
+            generated/general-minimal.tex
+            generated/general-executive.tex
+            generated/general-technical.tex
+            generated/general-editorial.tex
+            generated/general-terminal.tex
           latexmk_use_xelatex: true
       - name: Stage showcase site
         run: |
@@ -57,7 +62,7 @@ jobs:
           mkdir -p "$site/assets/pdfs" "$site/assets/previews" _site
           sudo apt-get update >/dev/null
           sudo apt-get install -y poppler-utils >/dev/null
-          for template in ats modern developer; do
+          for template in ats modern developer minimal executive technical editorial terminal; do
             pdf=$(find . -type f -name "general-${template}.pdf" -print -quit)
             test -n "$pdf"
             cp "$pdf" "$site/assets/pdfs/Chirayu-Babu-Jaysawal-general-${template}.pdf"

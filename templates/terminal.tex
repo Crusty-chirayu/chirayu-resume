@@ -1,0 +1,77 @@
+% ================================================================
+% Terminal / Code template
+% Professional resume with subtle developer aesthetics.
+% Distinct traits: clean sans body with monospace accents, bracketed
+% monospace section headings ([ profile ]), dark-green accent,
+% prompt-style bullets, monospace tech stacks, ruled header.
+% Still fully printable and recruiter-friendly.
+% ================================================================
+\geometry{letterpaper, margin=0.38in, top=0.30in, bottom=0.28in}
+\usepackage[scaled=0.94]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+\definecolor{termgreen}{RGB}{27,94,63}
+\definecolor{ink}{RGB}{28,32,36}
+\definecolor{gray}{RGB}{104,112,120}
+
+\renewcommand{\normalsize}{\fontsize{8.9}{10.4}\selectfont}
+\renewcommand{\small}{\fontsize{8.2}{9.6}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{7.7}{9.0}\selectfont}
+\renewcommand{\large}{\fontsize{10.8}{12.6}\selectfont}
+\renewcommand{\Large}{\fontsize{12.8}{14.8}\selectfont}
+\renewcommand{\LARGE}{\fontsize{15.6}{18.0}\selectfont}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=termgreen,
+  linkcolor=termgreen,
+  pdfborder={0 0 0},
+  pdftitle={Chirayu Babu Jaysawal - Resume},
+  pdfauthor={Chirayu Babu Jaysawal},
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.0pt}
+
+\newcommand{\ResumeSep}{\hspace{0.45em}{\color{gray}\textperiodcentered}\hspace{0.45em}}
+
+% ---- Header: left-aligned with green underline rule ----
+\newcommand{\ResumeTop}[5]{%
+\noindent{\color{ink}\LARGE\bfseries #1}\\[1.6pt]
+\noindent{\color{termgreen}\normalsize\bfseries #2}\\[3.2pt]
+{\footnotesize #3}\\[0.4pt]
+{\footnotesize\color{gray} #4}\\[0.4pt]
+{\footnotesize\color{gray} #5}%
+\par\vspace{2.4pt}\noindent{\color{termgreen}\rule{\textwidth}{1.6pt}}\par\vspace{1pt}%
+}
+
+% ---- Section headings: bracketed monospace ----
+\newcommand{\TerminalHeading}[1]{%
+  {\color{termgreen}\ttfamily\small[}\hspace{0.45em}%
+  {\color{ink}\bfseries\MakeUppercase{#1}}%
+  \hspace{0.45em}{\color{termgreen}\ttfamily\small]}}
+\titleformat{\section}
+  {\fontsize{9.6}{11.2}\selectfont}{}{0pt}{\TerminalHeading}%
+\titlespacing*{\section}{0pt}{6pt}{2pt}
+
+\newcommand{\ResumeParagraph}[1]{\noindent #1\par}
+\newcommand{\ResumeEntryHead}[2]{\noindent{\bfseries #1}\hfill{\color{gray}\ttfamily\small #2}\par}
+\newcommand{\ResumeEntrySub}[2]{\noindent{\color{gray} #1}\hfill{\color{gray} #2}\par}
+\newcommand{\ResumeSkillLine}[2]{\noindent{\color{termgreen}\ttfamily\small #1}\hspace{0.6em}{\small #2}\par}
+\newcommand{\ResumeProjectHead}[2]{\noindent{\color{ink}\bfseries #1}\hfill{\color{gray}\ttfamily\footnotesize #2}\par}
+\newcommand{\ResumeProjectDesc}[1]{\noindent #1\par}
+\newcommand{\ResumeSoftSkills}[1]{\noindent{\color{gray}\ttfamily\small #1}\par}
+
+\newenvironment{resumebullets}%
+  {\begin{itemize}[leftmargin=12pt,itemsep=0.4pt,topsep=0.8pt,parsep=0pt,partopsep=0pt,
+    label={\color{termgreen}\ttfamily\footnotesize >}]}%
+  {\end{itemize}}
+
+\newenvironment{resumeskills}%
+  {\begin{multicols}{2}\setlength{\columnsep}{16pt}}%
+  {\end{multicols}}

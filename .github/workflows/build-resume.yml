@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         profile: [general, fullstack, java, ai-ml, software-engineer]
-        template: [ats, modern, developer]
+        template: [ats, modern, developer, minimal, executive, technical, editorial, terminal]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

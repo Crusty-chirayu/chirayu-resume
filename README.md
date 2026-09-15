@@ -64,6 +64,11 @@ PDF  ──▶ first-page PNG preview
 - `ats`: conservative typography and spacing for machine readability (used for the latest default PDF)
 - `modern`: larger hierarchy and restrained blue accent
 - `developer`: compact layout with a green monospace technical accent
+- `minimal`: airy, typography-first design with no rules or color
+- `executive`: premium senior-engineer style with navy accent-bar headings
+- `technical`: dense engineering layout with numbered headings and monospace details
+- `editorial`: magazine-inspired serif with hairline rules and italic display type
+- `terminal`: bracketed monospace headings and prompt-style bullets with a green accent
 
 Templates are real LaTeX inputs, so changing the template changes the generated
 document rather than only its filename.
@@ -115,7 +120,8 @@ build command.
 
 ## CI/CD
 
-GitHub Actions runs the full 5 profiles x 3 templates matrix on pushes and pull
+GitHub Actions runs the full 5 profiles x 8 templates matrix (40 combinations) on
+pushes and pull
 requests. Each of the 15 jobs installs dependencies, generates LaTeX, compiles
 with XeLaTeX, parses the PDF, checks identity and links, checks page count, and
 uploads the resulting PDF as an artifact.
