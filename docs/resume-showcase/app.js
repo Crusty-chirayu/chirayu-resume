@@ -2,8 +2,14 @@
  * Interactive Resume Showcase — presentation layer only.
  * No resume content is duplicated here. This file maps template names to
  * assets produced by the existing Resume-as-Code pipeline (CI-generated):
- *   assets/previews/general-<template>.png  (first-page render of the PDF)
+ *   assets/previews/general-<template>.png  (first-page render, fallback)
  *   assets/pdfs/Chirayu-Babu-Jaysawal-general-<template>.pdf
+ *
+ * The primary preview renders the ACTUAL generated PDF with PDF.js:
+ *   - page 1 scaled to fit the preview container (exact aspect ratio)
+ *   - sharp backing store at devicePixelRatio
+ *   - an annotation layer built from the PDF's real link annotations,
+ *     positioned with the same viewport used to draw the canvas
  * ------------------------------------------------------------------------- */
 (function () {
   "use strict";
@@ -67,14 +73,14 @@
     }
   ];
 
-  var PORTFOLIO_URL = "https://portfolio-lac-kappa-49.vercel.app";
-
   var DEFAULT_ID = "ats";
 
   var buttonsHost = document.getElementById("template-buttons");
   var statusEl = document.getElementById("template-status");
   var preview = document.getElementById("preview");
-  var pdfViewer = document.getElementById("pdf-viewer");
+  var pdfStage = document.getElementById("pdf-stage");
+  var pdfCanvas = document.getElementById("pdf-canvas");
+  var pdfLinks = document.getElementById("pdf-links");
   var previewImage = document.getElementById("preview-image");
   var previewCaption = document.getElementById("preview-caption");
   var previewLoading = document.getElementById("preview-loading");
@@ -82,7 +88,13 @@
   var downloadLink = document.getElementById("download-pdf");
   var actionsHint = document.getElementById("actions-hint");
 
-  var current = null;
+  // PDF.js is loaded as a pinned classic script; the worker must match.
+  var PDFJS_READY = typeof window.pdfjsLib !== "undefined";
+  if (PDFJS_READY) {
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  }
+
 
   function findTemplate(id) {
     for (var i = 0; i < TEMPLATES.length; i++) {
@@ -105,19 +117,35 @@
     });
   }
 
-  function apply(template) {
-    var label = template.label;
-    // Primary preview: the real PDF (same-origin), keeping its native,
-    // clickable link annotations. Browsers that cannot render inline PDFs
-    // automatically show the PNG fallback nested inside the <object>.
-    pdfViewer.setAttribute("data", template.pdf);
-    pdfViewer.setAttribute(
-      "title",
-      label + " resume PDF — interactive preview"
-    );
+  function markActive(id) {
+    var buttons = buttonsHost.querySelectorAll("button");
+    Array.prototype.forEach.call(buttons, function (button) {
+      button.setAttribute(
+        "aria-pressed",
+        button.dataset.templateId === id ? "true" : "false"
+      );
+    });
+  }
+
+  /* Clean static fallback (no fake clickable regions) when PDF.js is
+   * unavailable or a document fails to load. Open PDF stays available. */
+  function showFallback(template) {
+    pdfCanvas.hidden = true;
+    pdfLinks.hidden = true;
+    previewImage.hidden = false;
     previewImage.src = template.preview;
     previewImage.alt =
-      "First-page preview of the " + label + " resume for Chirayu Babu Jaysawal";
+      "First-page preview of the " + template.label +
+      " resume for Chirayu Babu Jaysawal";
+  }
+
+  function showPdf() {
+    previewImage.hidden = true;
+    pdfCanvas.hidden = false;
+    pdfLinks.hidden = false;
+
+  function applyMeta(template) {
+    var label = template.label;
     previewCaption.textContent = label + " — " + template.tagline;
     openLink.href = template.pdf;
     openLink.setAttribute(
@@ -139,14 +167,124 @@
       "Active template: <strong>" + label + "</strong>";
   }
 
-  function markActive(id) {
-    var buttons = buttonsHost.querySelectorAll("button");
-    Array.prototype.forEach.call(buttons, function (button) {
-      button.setAttribute(
-        "aria-pressed",
-        button.dataset.templateId === id ? "true" : "false"
-      );
+  /* ------------------------------------------------------------------ *
+   * PDF.js rendering
+   *
+   * Scale strategy: take a scale-1 viewport, then pick the largest
+   * scale that fits BOTH the container width and a viewport-height
+   * budget, preserving the PDF's exact aspect ratio. The canvas backing
+   * store is multiplied by devicePixelRatio for sharpness while its CSS
+   * size stays at the 1x fit size, so annotation rectangles (computed
+   * with the SAME viewport) map 1:1 onto CSS pixels.
+   * ------------------------------------------------------------------ */
+  function fitScale(unitViewport) {
+    var available = pdfStage.clientWidth || preview.clientWidth || 640;
+    var heightBudget = Math.max(window.innerHeight * 0.78, 420);
+    return Math.min(
+      available / unitViewport.width,
+      heightBudget / unitViewport.height
+    );
+  }
+
+  /* Annotation layer built ONLY from the PDF's own link annotations,
+   * transformed with the exact viewport used for the canvas render. */
+  function buildLinkLayer(page, viewport) {
+    pdfLinks.innerHTML = "";
+    pdfLinks.style.width = viewport.width + "px";
+    pdfLinks.style.height = viewport.height + "px";
+    return page.getAnnotations().then(function (annotations) {
+      var fragment = document.createDocumentFragment();
+      annotations.forEach(function (annotation) {
+        if (annotation.subtype !== "Link") return;
+        var url = annotation.url || annotation.unsafeUrl;
+        if (!url || !/^https?:/i.test(url)) return; // skip internal dests
+        var rect = viewport.convertToViewportRectangle(annotation.rect);
+        var anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.target = "_blank";
+        anchor.rel = "noopener noreferrer";
+        anchor.className = "pdf-link";
+        anchor.setAttribute("aria-label", url);
+        anchor.style.left = Math.min(rect[0], rect[2]) + "px";
+        anchor.style.top = Math.min(rect[1], rect[3]) + "px";
+        anchor.style.width = Math.abs(rect[2] - rect[0]) + "px";
+        anchor.style.height = Math.abs(rect[3] - rect[1]) + "px";
+        fragment.appendChild(anchor);
+      });
+      pdfLinks.appendChild(fragment);
     });
+  }
+
+  }
+
+  function renderCurrent(token) {
+    if (!currentDoc) return;
+    currentDoc.getPage(1).then(function (page) {
+      if (token !== renderJob) return;
+      var unit = page.getViewport({ scale: 1 });
+      var viewport = page.getViewport({ scale: fitScale(unit) });
+      var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+
+      pdfCanvas.width = Math.floor(viewport.width * dpr);
+      pdfCanvas.height = Math.floor(viewport.height * dpr);
+      pdfCanvas.style.width = viewport.width + "px";
+      pdfCanvas.style.height = viewport.height + "px";
+
+      var context = pdfCanvas.getContext("2d");
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      return page.render({
+        canvasContext: context,
+        viewport: viewport,
+        transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null
+      }).promise.then(function () {
+        if (token !== renderJob) return;
+        return buildLinkLayer(page, viewport);
+      }).then(function () {
+        if (token !== renderJob) return;
+        showPdf();
+        previewLoading.classList.remove("is-visible");
+        preview.classList.remove("is-switching");
+      });
+    }).catch(function () {
+      if (token !== renderJob) return;
+      showFallback(current);
+      previewLoading.classList.remove("is-visible");
+      preview.classList.remove("is-switching");
+    });
+  }
+
+  function loadDocument(template) {
+    var token = ++renderJob;
+    if (currentDocUrl === template.pdf && currentDoc) {
+      renderCurrent(token);
+      return;
+    }
+    window.pdfjsLib.getDocument(template.pdf).promise.then(function (doc) {
+      if (token !== renderJob) {
+        doc.destroy();
+        return;
+      }
+      if (currentDoc) currentDoc.destroy();
+      currentDoc = doc;
+      currentDocUrl = template.pdf;
+      renderCurrent(token);
+    }).catch(function () {
+      if (token !== renderJob) return;
+      showFallback(template);
+      previewLoading.classList.remove("is-visible");
+      preview.classList.remove("is-switching");
+    });
+  }
+
+  function apply(template) {
+    applyMeta(template);
+    if (PDFJS_READY) {
+      loadDocument(template);
+    } else {
+      showFallback(template);
+      previewLoading.classList.remove("is-visible");
+      preview.classList.remove("is-switching");
+    }
   }
 
   function select(id) {
@@ -159,31 +297,37 @@
       window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (reduceMotion || preview.classList.contains("is-switching")) {
+    if (reduceMotion) {
       apply(template);
       return;
     }
 
     preview.classList.add("is-switching");
     previewLoading.classList.add("is-visible");
-
-    var swapped = false;
-    function reveal() {
-      if (swapped) return;
-      swapped = true;
-      apply(template);
+    apply(template);
+    // Failsafe: never leave the preview hidden if an async step stalls.
+    setTimeout(function () {
       previewLoading.classList.remove("is-visible");
-      requestAnimationFrame(function () {
-        preview.classList.remove("is-switching");
-      });
-    }
-
-    // PDF plug-ins fire `load` on the <object> in most desktop browsers;
-    // the timeout guarantees the switch never stalls anywhere else.
-    pdfViewer.onload = reveal;
-    setTimeout(reveal, 700);
+      preview.classList.remove("is-switching");
+    }, 2500);
   }
+
+  // Re-fit the active page when the viewport changes (debounced).
+  window.addEventListener("resize", function () {
+    if (!currentDoc) return;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      renderCurrent(++renderJob);
+    }, 150);
+  });
 
   buildButtons();
   select(DEFAULT_ID);
 })();
+
+
+  var current = null;
+  var currentDoc = null;      // PDF.js document handle for the active template
+  var currentDocUrl = null;
+  var renderJob = 0;          // token guarding against stale async renders
+  var resizeTimer = null;

@@ -162,32 +162,50 @@ a { color: var(--accent); }
   transform: translateY(6px) scale(0.995);
 }
 
-.preview img {
+/* Controlled PDF.js preview: canvas is sized in JS to fit the container
+ * while preserving the letter aspect ratio; the whole page is always
+ * visible with no internal scrolling. */
+.pdf-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background: #fff;
+  min-height: 12rem;
+  overflow: hidden;
+}
+
+#pdf-canvas {
+  display: block;
+  max-width: 100%;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+}
+
+/* Annotation layer: transparent anchors positioned 1:1 with the canvas
+ * viewport — no colored hit areas, no full-surface overlay. */
+.pdf-links {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.pdf-link {
+  position: absolute;
+  display: block;
+  background: transparent;
+  border: 0;
+  outline-offset: -2px;
+}
+
+.pdf-link:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.pdf-fallback {
   display: block;
   width: 100%;
   height: auto;
-  min-height: 12rem;
   object-fit: contain;
   object-position: top center;
-}
-
-/* Primary interactive PDF viewer (same-origin <object>).
- * Letter-paper aspect ratio keeps the document large and readable on
- * desktop; on small screens a viewport-relative height keeps it usable
- * with the plug-in's own scroll and zoom controls. */
-.preview object {
-  display: block;
-  width: 100%;
-  aspect-ratio: 8.5 / 11;
-  background: #fff;
-  border: 0;
-}
-
-@media (max-width: 640px) {
-  .preview object {
-    aspect-ratio: auto;
-    height: 72vh;
-  }
 }
 
 .preview__caption {
