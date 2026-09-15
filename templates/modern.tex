@@ -1,11 +1,46 @@
-% Refined hierarchy with a restrained blue accent.
-\geometry{margin=0.7in}
-\usepackage{lmodern}
+% ================================================================
+% Modern template
+% Clean, contemporary sans-serif layout with a restrained blue accent.
+% Visual reference: Chirayu Full-Stack resume.
+% Balanced whitespace, left-aligned header, thin baseline rules.
+% ================================================================
+\geometry{letterpaper, margin=0.58in, top=0.5in, bottom=0.5in}
+\usepackage[scaled=0.95]{helvet}     % Helvetica-style sans serif
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc}
 \usepackage{xcolor}
-\definecolor{sectioncolor}{RGB}{20,75,105}
-\newcommand{\resumeName}{\Huge\bfseries\color{sectioncolor}}
-\newcommand{\resumeHeadline}{\large\itshape}
+\usepackage{enumitem}
 \usepackage{titlesec}
-\titleformat{\section}{\color{sectioncolor}\bfseries\Large}{}{0pt}{}
+
+\definecolor{accent}{RGB}{17,72,106}
+\definecolor{slate}{RGB}{85,92,102}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=accent,
+  linkcolor=accent,
+  pdfborder={0 0 0},
+  pdftitle={Chirayu Babu Jaysawal - Resume},
+  pdfauthor={Chirayu Babu Jaysawal},
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+
+% ---- Header: left-aligned, strong name, defined headline ----
+\newcommand{\resumeName}[1]{{\huge\bfseries\color{accent} #1}}
+\newcommand{\resumeHeadline}[1]{{\large\color{slate} #1}}
+\newcommand{\ResumeTop}[4]{%
+\noindent\resumeName{#1}\\[2pt]
+\noindent\resumeHeadline{#2}\\[8pt]
+\noindent{\normalsize #3}\\[1pt]
+\noindent{\normalsize #4}\\[4pt]
+\noindent\textcolor{accent}{\rule{\textwidth}{1pt}}
+}
+
+% ---- Section headings: accent color with a thin baseline rule ----
+\titleformat{\section}{\color{accent}\bfseries}{}{0pt}{}[\vspace{1pt}\textcolor{accent}{\rule[0.55ex]{\textwidth}{0.6pt}}]
 \titlespacing*{\section}{0pt}{10pt}{4pt}
-\setlist[itemize]{leftmargin=18pt,itemsep=3pt,topsep=3pt}
+
+\setlist[itemize]{leftmargin=16pt,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=16pt,itemsep=2pt,topsep=3pt}

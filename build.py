@@ -71,6 +71,12 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
             raise ValueError(f"Profile '{profile['name']}' selects unknown project '{project_id}'")
         selected.append(projects[project_id])
 
+    email_link = rf"\href{{mailto:{personal['email']}}}{{{latex_escape(personal['email'])}}}"
+    github_link = rf"\href{{{personal['github']}}}{{GitHub}}"
+    linkedin_link = rf"\href{{{personal['linkedin']}}}{{LinkedIn}}"
+    location = latex_escape(personal["location"])
+    VSEP = r"$|$"
+
     lines = [
         r"\documentclass[10pt]{article}",
         r"\usepackage[T1]{fontenc}",
@@ -80,37 +86,67 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
         r"\usepackage{geometry}",
         r"\input{templates/" + template + r".tex}",
         r"\begin{document}",
-        r"\begin{center}",
-        r"{\resumeName " + latex_escape(personal["name"]) + r"}",
-        r"\resumeHeadline " + latex_escape(personal["headline"]) + r"\\",
-        r"\href{mailto:" + personal["email"] + r"}{" + latex_escape(personal["email"]) + r"} $\cdot$ " + latex_escape(personal["location"]) + r"\\",
-        r"\href{" + personal["github"] + r"}{GitHub} $\cdot$ \href{" + personal["linkedin"] + r"}{LinkedIn}",
-        r"\end{center}",
+        r"\ResumeTop{",
+        rf"  {latex_escape(personal['name'])}",
+        r"}{",
+        rf"  {latex_escape(personal['headline'])}",
+        r"}{",
+        rf"  {email_link} \,{VSEP}\, {location}",
+        r"}{",
+        rf"  {github_link} \quad {linkedin_link}",
+        r"}",
         r"\section*{Profile}",
         latex_escape(profile["summary"]),
         r"\section*{Education}",
     ]
     for education in data.get("education", []):
-        lines.append(r"\textbf{" + latex_escape(education["degree"]) + r"} \hfill " + latex_escape(education["year"]) + r"\\")
-        lines.append(latex_escape(education["university"]) + r", " + latex_escape(education["location"]) + r"\\")
-        lines.append(latex_escape(education["cgpa"]) + r"\par")
+        lines.append(rf"\textbf{{{latex_escape(education['degree'])}}} \hfill {latex_escape(education.get('year', ''))}\\")
+        if education.get("institution"):
+            institution = latex_escape(education["institution"])
+            if education.get("location"):
+                institution += ", " + latex_escape(education["location"])
+            lines.append(rf"{institution}\\")
+        if education.get("score"):
+            lines.append(latex_escape(education["score"]) + r"\par")
     lines.append(r"\section*{Technical Skills}")
     for category in profile["skills"]:
         values = data["skills"].get(category, [])
-        lines.append(r"\textbf{" + latex_escape(category.replace("_", " ").title()) + r"}: " + latex_escape(", ".join(values)) + r"\\")
-    lines.extend([r"\section*{Projects}", r"\begin{itemize}"])
+        if not values:
+            continue
+        lines.append(rf"\textbf{{{latex_escape(category.replace('_', ' ').title())}}}: {latex_escape(', '.join(values))}\\")
+    lines.append(r"\section*{Projects}")
     for project in selected:
-        lines.append(r"\item \textbf{" + latex_escape(project["title"]) + r"} -- " + latex_escape(project["description"]))
-    lines.append(r"\end{itemize}")
+        tech = project.get("tech") or []
+        title_line = "\\textbf{" + latex_escape(project["title"]) + "}"
+        if tech:
+            title_line += r" \hfill {\small\itshape " + latex_escape(", ".join(tech)) + "}"
+        lines.append(r"\noindent " + title_line + r"\\")
+        lines.append(r"\noindent " + latex_escape(project.get("description", "")) + r"\par")
+        bullets = project.get("bullets") or []
+        if bullets:
+            lines.append(r"\begin{itemize}")
+            lines.extend(r"  \item " + latex_escape(bullet) for bullet in bullets)
+            lines.append(r"\end{itemize}")
+    if data.get("achievements"):
+        lines.append(r"\section*{Achievements}")
+        lines.append(r"\begin{itemize}")
+        lines.extend(r"  \item " + latex_escape(item) for item in data["achievements"])
+        lines.append(r"\end{itemize}")
+    if data.get("certifications"):
+        lines.append(r"\section*{Certifications}")
+        lines.append(r"\begin{itemize}")
+        for item in data["certifications"]:
+            name = item.get("name") if isinstance(item, dict) else item
+            lines.append(r"  \item " + latex_escape(name))
+        lines.append(r"\end{itemize}")
     if data.get("experience"):
         lines.append(r"\section*{Experience}")
         for item in data["experience"]:
-            lines.append(r"\textbf{" + latex_escape(item["position"]) + r"}, " + latex_escape(item["organization"]) + r"\\")
+            lines.append(rf"\textbf{{{latex_escape(item['position'])}}}, {latex_escape(item['organization'])}\\")
             lines.append(latex_escape(item["description"]) + r"\par")
-    if data.get("certifications"):
-        lines.append(r"\section*{Certifications}")
-        for item in data["certifications"]:
-            lines.append(latex_escape(item["name"]) + r" -- " + latex_escape(item["issuer"]) + r"\\")
+    if data.get("soft_skills"):
+        lines.append(r"\section*{Soft Skills}")
+        lines.append(r"\noindent " + latex_escape(", ".join(data["soft_skills"])) + r"\par")
     lines.extend([r"\end{document}", ""])
     return "\n".join(lines)
 

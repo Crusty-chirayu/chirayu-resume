@@ -1,11 +1,48 @@
-% Conservative, machine-readable typography.
-\geometry{margin=0.62in}
-\usepackage{mathpazo}
+% ================================================================
+% ATS template
+% Conservative, professional, ATS-friendly serif layout.
+% Visual reference: Chirayu AI Engineer / Full-Stack resume.
+% Dense but readable: Palatino serif, ruled section headings,
+% monochrome palette, compact spacing.
+% ================================================================
+\geometry{letterpaper, margin=0.5in, top=0.47in, bottom=0.47in}
+\usepackage[scaled=0.94]{mathpazo}   % Palatino serif
+\usepackage[T1]{fontenc}
 \usepackage{xcolor}
-\definecolor{sectioncolor}{RGB}{0,0,0}
-\newcommand{\resumeName}{\Large\bfseries}
-\newcommand{\resumeHeadline}{\normalsize}
+\usepackage{enumitem}
 \usepackage{titlesec}
-\titleformat{\section}{\color{sectioncolor}\bfseries\large}{}{0pt}{}[\titlerule]
-\titlespacing*{\section}{0pt}{7pt}{3pt}
-\setlist[itemize]{leftmargin=16pt,itemsep=1pt,topsep=2pt}
+
+\definecolor{ink}{RGB}{25,25,25}
+\definecolor{rulecolor}{RGB}{60,60,60}
+
+% Links rendered cleanly (no boxes) and in neutral ink.
+\hypersetup{
+  colorlinks=true,
+  allcolors=black,
+  pdfborder={0 0 0},
+  pdftitle={Chirayu Babu Jaysawal - Resume},
+  pdfauthor={Chirayu Babu Jaysawal},
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+% ---- Header: centered, clearly separated hierarchy ----
+\newcommand{\resumeName}[1]{{\LARGE\bfseries #1}}
+\newcommand{\resumeHeadline}[1]{{\normalsize\itshape #1}}
+\newcommand{\ResumeTop}[4]{%
+\begin{center}
+  {\LARGE\bfseries #1}\\[3pt]
+  {\normalsize\itshape #2}\\[5pt]
+  {\small #3}\\[1pt]
+  {\scriptsize #4}
+\end{center}\vspace{2pt}
+\noindent\textcolor{rulecolor}{\rule{\textwidth}{1.1pt}}
+}
+
+% ---- Section headings: bold small caps with a horizontal rule ----
+\titleformat{\section}{\color{ink}\bfseries\scshape\large}{}{0pt}{}[\vspace{2pt}\textcolor{rulecolor}{\titlerule}]
+\titlespacing*{\section}{0pt}{9pt}{3pt}
+
+\setlist[itemize]{leftmargin=13pt,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=13pt,itemsep=1pt,topsep=2pt}

@@ -17,32 +17,73 @@ skills:
   ai_ml: [Gemini API, OpenCV, Prompt Engineering, Agentic Workflows]
   tools: [Git, GitHub, Docker, Linux/WSL, VS Code, Cursor]
 
+soft_skills: [Communication, Teamwork, Problem Solving, Analytical Thinking, Self-Learning, Time Management, Adaptability]
+
 projects:
   - id: reforge
     title: "ReForge"
-    description: "AI Software Re-Engineering Platform"
+    description: "AI-assisted platform that turns software re-engineering work into structured, reviewable refactoring tasks."
+    tech: [Next.js, React.js, Node.js, TypeScript, PostgreSQL, Gemini API]
+    bullets:
+      - "Uses the Gemini API inside agentic workflows to analyze a codebase and generate structured modernization tasks."
+      - "Persists project and re-engineering task records in PostgreSQL and serves them through REST APIs to the interface."
   - id: group-chatbot
     title: "Group-Chatbot"
-    description: "Real-Time AI Chat Platform"
+    description: "Real-Time AI Chat Platform offering shared rooms and live AI-assisted conversations."
+    tech: [Node.js, Express.js, React.js, WebSockets, JWT, Gemini API, PostgreSQL]
+    bullets:
+      - "Implements live message delivery across shared rooms using WebSockets."
+      - "Wires the Gemini API and JWT session handling into the message pipeline."
+      - "Stores conversations and user data in PostgreSQL for reliable persistence."
   - id: edu-share
     title: "EDU-SHARE"
-    description: "Knowledge Exchange Platform"
+    description: "Knowledge Exchange Platform for discovering and sharing study resources and ideas."
+    tech: [React.js, Next.js, Tailwind CSS, Node.js, JWT, PostgreSQL]
+    bullets:
+      - "Builds a responsive Next.js interface for discovering and sharing study resources."
+      - "Models users and uploaded resources in PostgreSQL exposed through REST endpoints."
+      - "Protects contributions behind JWT-based authentication."
   - id: envoy
     title: "Envoy"
-    description: "AI Career Agent"
+    description: "AI Career Agent generating tailored career next-steps from a user profile."
+    tech: [Next.js, React.js, Node.js, Gemini API, PostgreSQL]
+    bullets:
+      - "Sends structured prompts to the Gemini API grounded in the user's profile and preferences."
+      - "Stores profiles and generated recommendations in PostgreSQL for later review."
+      - "Presents results through a clean, responsive frontend."
   - id: cartiq
     title: "CartIQ"
-    description: "AI Shopping Assistant"
+    description: "AI Shopping Assistant that recommends products personalized to user preferences."
+    tech: [Next.js, Tailwind CSS, Gemini API, PostgreSQL]
+    bullets:
+      - "Uses prompt engineering over product data to drive conversational assistance."
+      - "Persists interaction and preference history in PostgreSQL for better suggestions."
+      - "Built with a responsive Next.js and Tailwind user interface."
   - id: hotel-management
     title: "Hotel Management System"
-    description: "Java Desktop Application"
+    description: "Java Desktop Application for hotel booking and guest management."
+    tech: [Java, SQL, MySQL]
+    bullets:
+      - "Menu-driven Java desktop application managing rooms, guests, and reservations."
+      - "Uses SQL against MySQL for structured booking and guest data."
 
 education:
   - degree: "Bachelor of Engineering in Computer Engineering"
-    university: "Visvesvaraya Technological University"
+    institution: "Visvesvaraya Technological University"
     location: "Bangalore, IN"
-    year: "2027"
-    cgpa: "8.5 / 10.0 (through 7th semester)"
+    year: "2023 – 2026"
+    score: "CGPA 8.5 / 10.0 (through 7th semester)"
+  - degree: "Senior Secondary (12th Grade)"
+    year: "2022"
+    score: "82%"
+  - degree: "Secondary (10th Grade)"
+    year: "2020"
+    score: "95%"
+
+achievements:
+  - "CGPA of 8.5 / 10.0 through the 7th semester at Visvesvaraya Technological University."
+  - "Cleared Senior Secondary (12th Grade) with 82%."
+  - "Cleared Secondary (10th Grade) with 95%."
 
 experience: []
 certifications: []
