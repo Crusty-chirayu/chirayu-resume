@@ -31,7 +31,13 @@
     <section class="preview-panel" id="preview-panel" aria-label="Resume preview">
       <div class="preview-frame">
         <figure class="preview" id="preview">
-          <img id="preview-image" src="" alt="" decoding="async" />
+          <!-- Primary preview: the actual generated PDF (same-origin), so its
+               native link annotations (GitHub, LinkedIn, Portfolio, project
+               repos) stay clickable. The PNG below is a fallback for the rare
+               browsers that cannot render PDFs inline. -->
+          <object id="pdf-viewer" data="" type="application/pdf" title="Interactive preview of the selected resume PDF">
+            <img id="preview-image" src="" alt="" decoding="async" />
+          </object>
           <figcaption class="preview__caption" id="preview-caption"></figcaption>
         </figure>
         <div class="preview__loading" id="preview-loading" aria-hidden="true">

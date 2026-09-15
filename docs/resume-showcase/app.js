@@ -74,6 +74,7 @@
   var buttonsHost = document.getElementById("template-buttons");
   var statusEl = document.getElementById("template-status");
   var preview = document.getElementById("preview");
+  var pdfViewer = document.getElementById("pdf-viewer");
   var previewImage = document.getElementById("preview-image");
   var previewCaption = document.getElementById("preview-caption");
   var previewLoading = document.getElementById("preview-loading");
@@ -106,6 +107,14 @@
 
   function apply(template) {
     var label = template.label;
+    // Primary preview: the real PDF (same-origin), keeping its native,
+    // clickable link annotations. Browsers that cannot render inline PDFs
+    // automatically show the PNG fallback nested inside the <object>.
+    pdfViewer.setAttribute("data", template.pdf);
+    pdfViewer.setAttribute(
+      "title",
+      label + " resume PDF — interactive preview"
+    );
     previewImage.src = template.preview;
     previewImage.alt =
       "First-page preview of the " + label + " resume for Chirayu Babu Jaysawal";
@@ -169,9 +178,10 @@
       });
     }
 
-    previewImage.onload = reveal;
-    previewImage.onerror = reveal;
-    setTimeout(reveal, 900); // never stay hidden if the image stalls
+    // PDF plug-ins fire `load` on the <object> in most desktop browsers;
+    // the timeout guarantees the switch never stalls anywhere else.
+    pdfViewer.onload = reveal;
+    setTimeout(reveal, 700);
   }
 
   buildButtons();
