@@ -34,7 +34,6 @@ projects:
     bullets:
       - "Implements live message delivery across shared rooms using WebSockets."
       - "Wires the Gemini API and JWT session handling into the message pipeline."
-      - "Stores conversations and user data in PostgreSQL for reliable persistence."
   - id: edu-share
     title: "EDU-SHARE"
     description: "Knowledge Exchange Platform for discovering and sharing study resources and ideas."
@@ -42,7 +41,6 @@ projects:
     bullets:
       - "Builds a responsive Next.js interface for discovering and sharing study resources."
       - "Models users and uploaded resources in PostgreSQL exposed through REST endpoints."
-      - "Protects contributions behind JWT-based authentication."
   - id: envoy
     title: "Envoy"
     description: "AI Career Agent generating tailored career next-steps from a user profile."
@@ -50,7 +48,6 @@ projects:
     bullets:
       - "Sends structured prompts to the Gemini API grounded in the user's profile and preferences."
       - "Stores profiles and generated recommendations in PostgreSQL for later review."
-      - "Presents results through a clean, responsive frontend."
   - id: cartiq
     title: "CartIQ"
     description: "AI Shopping Assistant that recommends products personalized to user preferences."
@@ -58,7 +55,6 @@ projects:
     bullets:
       - "Uses prompt engineering over product data to drive conversational assistance."
       - "Persists interaction and preference history in PostgreSQL for better suggestions."
-      - "Built with a responsive Next.js and Tailwind user interface."
   - id: hotel-management
     title: "Hotel Management System"
     description: "Java Desktop Application for hotel booking and guest management."
@@ -81,9 +77,7 @@ education:
     score: "95%"
 
 achievements:
-  - "CGPA 8.5 / 10.0 through 7th semester at VTU."
-  - "Senior Secondary (12th Grade): 82%."
-  - "Secondary (10th Grade): 95%."
+  - "CGPA 8.5 / 10.0 through 7th semester at VTU; 12th Grade 82%; 10th Grade 95%."
 
 experience: []
 certifications: []
