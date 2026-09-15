@@ -132,7 +132,11 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
     lines.append(r"\section*{Projects}")
     for project in selected:
         tech = ", ".join(project.get("tech") or [])
-        lines.append(rf"\ResumeProjectHead{{{latex_escape(project['title'])}}}{{{latex_escape(tech)}}}")
+        title = latex_escape(project["title"])
+        subtitle = latex_escape(project.get("subtitle", "") or "")
+        if subtitle:
+            title = title + f" -- {subtitle}"
+        lines.append(rf"\ResumeProjectHead{{{title}}}{{{latex_escape(tech)}}}")
         lines.append(rf"\ResumeProjectDesc{{{latex_escape(project.get('description', ''))}}}")
         bullets = project.get("bullets") or []
         if bullets:
@@ -140,7 +144,7 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
             lines.extend(r"\item " + latex_escape(bullet) for bullet in bullets)
             lines.append(r"\end{resumebullets}")
     if data.get("achievements"):
-        lines.append(r"\section*{Achievements}")
+        lines.append(r"\section*{Achievements \& Certifications}")
         lines.append(r"\begin{resumebullets}")
         lines.extend(r"\item " + latex_escape(item) for item in data["achievements"])
         lines.append(r"\end{resumebullets}")

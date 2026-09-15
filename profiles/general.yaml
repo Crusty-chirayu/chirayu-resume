@@ -1,4 +1,4 @@
 name: general
-summary: "Computer Engineering student building practical software across web, AI, and desktop applications."
+summary: "Computer Engineering student and full-stack developer focused on building production-grade web platforms and software engineering tools. Experienced across React/Next.js frontends and Node.js/Express backends, with hands-on work integrating LLM APIs (Gemini) into real applications and a strong foundation in databases, REST APIs, and system design."
 skills: [languages, frontend, backend, databases, ai_ml, tools]
 projects: [reforge, group-chatbot, edu-share, envoy, cartiq, hotel-management]
