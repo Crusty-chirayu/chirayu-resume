@@ -41,3 +41,52 @@ jobs:
         with:
           name: resume-${{ matrix.profile }}-${{ matrix.template }}
           path: dist/Chirayu-Babu-Jaysawal-${{ matrix.profile }}-${{ matrix.template }}.pdf
+
+  publish:
+    name: Publish preview + latest release
+    needs: build
+    if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download canonical resume (general/ats)
+        uses: actions/download-artifact@v4
+        with:
+          name: resume-general-ats
+          path: dist
+      - name: Install PDF rendering tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+      - name: Generate staged PDF and first-page preview
+        run: |
+          cp "dist/Chirayu-Babu-Jaysawal-general-ats.pdf" "dist/Chirayu-Babu-Jaysawal-latest.pdf"
+          pdftoppm -png -r 150 -f 1 -l 1 "dist/Chirayu-Babu-Jaysawal-latest.pdf" /tmp/chirayu-preview
+          mv /tmp/chirayu-preview-1.png resume-preview.png
+          test -s resume-preview.png
+      - name: Validate preview image
+        run: |
+          file resume-preview.png
+          test -s resume-preview.png
+      - name: Commit preview image
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add resume-preview.png
+          if git diff --cached --quiet; then
+            echo "Preview image unchanged; nothing to commit"
+          else
+            git commit -m "chore: update resume preview image"
+            git push origin main
+          fi
+      - name: Publish latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="resume-build-${{ github.run_number }}"
+          gh release create "$tag" "dist/Chirayu-Babu-Jaysawal-latest.pdf" \
+            --latest \
+            --title "Resume Build #${{ github.run_number }}" \
+            --notes "Latest resume PDF generated from the **general** profile using the **ats** template. Click the preview in the README to open this PDF."
