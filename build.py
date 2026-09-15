@@ -168,11 +168,22 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
     return "\n".join(lines)
 
 
+COMPILERS = ("xelatex", "lualatex", "pdflatex", "tectonic")
+
+
 def find_compiler() -> str | None:
-    for compiler in ("xelatex", "lualatex", "pdflatex"):
+    for compiler in COMPILERS:
         if shutil.which(compiler):
             return compiler
     return None
+
+
+def compile_command(compiler: str, job_dir: Path, output: Path) -> list[str]:
+    if compiler == "tectonic":
+        # Tectonic runs non-interactive by default and stops on the first error.
+        # It resolves \input paths relative to the input file, so point it at the repo root.
+        return [compiler, "-Z", f"search-path={ROOT}", "--outdir", str(job_dir), str(output)]
+    return [compiler, "-interaction=nonstopmode", "-halt-on-error", "-output-directory", str(job_dir), str(output)]
 
 
 def build(profile_name: str, template: str, compile_pdf: bool) -> Path:
@@ -190,11 +201,11 @@ def build(profile_name: str, template: str, compile_pdf: bool) -> Path:
         return output
     compiler = find_compiler()
     if compiler is None:
-        raise RuntimeError("No LaTeX compiler found. Install XeLaTeX, LuaLaTeX, or pdfLaTeX, or use --validate-only.")
+        raise RuntimeError("No LaTeX compiler found. Install XeLaTeX, LuaLaTeX, pdfLaTeX, or Tectonic, or use --validate-only.")
     DIST.mkdir(exist_ok=True)
     job_dir = DIST / f".build-{profile_name}-{template}"
     job_dir.mkdir(exist_ok=True)
-    result = subprocess.run([compiler, "-interaction=nonstopmode", "-halt-on-error", "-output-directory", str(job_dir), str(output)], cwd=ROOT, text=True)
+    result = subprocess.run(compile_command(compiler, job_dir, output), cwd=ROOT, text=True)
     pdf = job_dir / output.with_suffix(".pdf").name
     if result.returncode != 0 or not pdf.is_file() or pdf.stat().st_size == 0:
         raise RuntimeError(f"LaTeX compilation failed for {profile_name} x {template}")
