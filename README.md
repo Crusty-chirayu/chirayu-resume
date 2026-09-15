@@ -8,6 +8,17 @@
 
 ---
 
+## Interactive Resume
+
+Explore my resume across multiple visual templates — switch between the
+**ATS**, **Modern**, and **Developer** layouts, preview each one, and open or
+download the matching PDF, all in a single page:
+
+🚀 [Open Interactive Resume](https://crusty-chirayu.github.io/chirayu-resume/)
+
+The showcase displays the actual outputs of this repository's build pipeline
+(general profile × each template); it contains no duplicated resume data.
+
 ## Resume Preview
 
 Click the preview to open or download the latest PDF.
@@ -123,6 +134,11 @@ https://github.com/Crusty-chirayu/chirayu-resume/releases/latest/download/Chiray
 ```
 
 Historical builds are listed on the [Releases](https://github.com/Crusty-chirayu/chirayu-resume/releases) page.
+
+A separate, minimal `deploy-showcase` workflow reuses `build.py` and the same
+XeLaTeX compile step to publish the [Interactive Resume](https://crusty-chirayu.github.io/chirayu-resume/)
+to GitHub Pages with the ATS / Modern / Developer previews and PDFs. The
+existing resume matrix workflow is unaffected.
 
 ## Tests
 

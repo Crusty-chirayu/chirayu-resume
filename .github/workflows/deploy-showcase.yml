@@ -1,0 +1,86 @@
+name: Deploy Resume Showcase
+
+# Minimal, isolated GitHub Pages deployment for the interactive resume
+# showcase. It reuses the existing Resume-as-Code engine (build.py +
+# XeLaTeX) to produce the three general-profile template assets that the
+# showcase displays. The build-resume.yml matrix pipeline is untouched.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/resume-showcase/**"
+      - "master-data.yaml"
+      - "profiles/**"
+      - "templates/**"
+      - "build.py"
+      - ".github/workflows/deploy-showcase.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-assets:
+    name: Build showcase assets (general x ats/modern/developer)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      - name: Generate LaTeX via the existing engine
+        run: |
+          for template in ats modern developer; do
+            python build.py --profile general --template "$template" --validate-only
+          done
+      - name: Compile the three showcase PDFs
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: |
+            generated/general-ats.tex
+            generated/general-modern.tex
+            generated/general-developer.tex
+          latexmk_use_xelatex: true
+      - name: Stage showcase site
+        run: |
+          set -euo pipefail
+          site=docs/resume-showcase
+          mkdir -p "$site/assets/pdfs" "$site/assets/previews" _site
+          sudo apt-get update >/dev/null
+          sudo apt-get install -y poppler-utils >/dev/null
+          for template in ats modern developer; do
+            pdf=$(find . -type f -name "general-${template}.pdf" -print -quit)
+            test -n "$pdf"
+            cp "$pdf" "$site/assets/pdfs/Chirayu-Babu-Jaysawal-general-${template}.pdf"
+            python tests/validate_pdf.py "$site/assets/pdfs/Chirayu-Babu-Jaysawal-general-${template}.pdf"
+            pdftoppm -png -r 150 -f 1 -l 1 "$pdf" "$site/assets/previews/general-${template}"
+            mv "$site/assets/previews/general-${template}-1.png" "$site/assets/previews/general-${template}.png"
+            test -s "$site/assets/previews/general-${template}.png"
+          done
+          cp -r "$site"/. _site/
+      - name: List deployed assets
+        run: find _site -type f | sort
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build-assets
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

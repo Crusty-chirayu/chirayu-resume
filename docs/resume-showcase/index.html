@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive resume showcase for Chirayu Babu Jaysawal — switch between ATS, Modern, and Developer resume templates rendered from the same verified source data." />
+  <title>Chirayu Babu Jaysawal — Interactive Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#preview-panel">Skip to resume preview</a>
+
+  <header class="hero">
+    <p class="hero__eyebrow">Resume-as-Code · Live Showcase</p>
+    <h1 class="hero__name">Chirayu Babu Jaysawal</h1>
+    <p class="hero__headline">Computer Engineering Student<br class="hero__break" /> Full-Stack Developer</p>
+
+    <nav class="template-switch" aria-label="Resume template selection">
+      <div class="template-switch__buttons" role="group" id="template-buttons">
+        <!-- buttons injected by app.js -->
+      </div>
+      <p class="template-switch__status" id="template-status" role="status" aria-live="polite"></p>
+    </nav>
+  </header>
+
+  <main class="stage">
+    <section class="preview-panel" id="preview-panel" aria-label="Resume preview">
+      <div class="preview-frame">
+        <figure class="preview" id="preview">
+          <img id="preview-image" src="" alt="" decoding="async" />
+          <figcaption class="preview__caption" id="preview-caption"></figcaption>
+        </figure>
+        <div class="preview__loading" id="preview-loading" aria-hidden="true">
+          <span class="spinner"></span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn--primary" id="open-pdf" href="#" target="_blank" rel="noopener">
+          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h5a2 2 0 0 1 2 2v5"/><path d="M21 3l-9 9"/><path d="M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg>
+          Open PDF
+        </a>
+        <a class="btn btn--ghost" id="download-pdf" href="#" download>
+          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PDF
+        </a>
+      </div>
+      <p class="actions__hint" id="actions-hint"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>
+      Generated from a single source of truth (<code>master-data.yaml</code>) via
+      <a href="https://github.com/Crusty-chirayu/chirayu-resume" target="_blank" rel="noopener">Resume-as-Code</a>.
+      Previews and PDFs are exact build outputs.
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
