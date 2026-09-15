@@ -1,4 +1,4 @@
 name: ai-ml
 summary: "Computer Engineering student exploring AI products, computer vision, LLM APIs, and agentic workflows."
-skills: [ai_ml, languages, backend, databases, tools]
-projects: [reforge, envoy, cartiq, group-chatbot]
+skills: [ai_ml, languages, frontend, backend, databases, tools]
+projects: [reforge, envoy, cartiq, group-chatbot, edu-share]

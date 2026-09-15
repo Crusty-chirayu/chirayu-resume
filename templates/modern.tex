@@ -1,56 +1,80 @@
 % ================================================================
 % Modern template
-% Clean, contemporary sans-serif layout with a restrained blue accent.
+% Contemporary sans-serif layout with a coloured accent band.
 % Visual reference: Chirayu Full-Stack resume.
-% Left-aligned header, accent-colored headings with thin baseline
-% rules, two-column skills, balanced one-page density.
+% Distinct from ATS: left-aligned wordmark header, deep-blue accent,
+% right-aligned section headings over a two-tone rule, single-column
+% labelled skill rows, accent bullets.
 % ================================================================
-\geometry{letterpaper, margin=0.45in, top=0.40in, bottom=0.40in}
+\geometry{letterpaper, margin=0.40in, top=0.30in, bottom=0.28in}
 \usepackage[scaled=0.95]{helvet}     % Helvetica-style sans serif
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage[T1]{fontenc}
-\usepackage{multicol}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{titlesec}
+\usepackage{needspace}
 
-\definecolor{accent}{RGB}{17,72,106}
-\definecolor{slate}{RGB}{85,92,102}
+\definecolor{accent}{RGB}{20,76,126}      % deep professional blue
+\definecolor{accentsoft}{RGB}{226,234,245}
+\definecolor{ink}{RGB}{28,32,38}
 
-% Compact but readable body type (balanced one-page layout).
-\renewcommand{\normalsize}{\fontsize{9.4}{11}\selectfont}
+\renewcommand{\normalsize}{\fontsize{8.9}{10.4}\selectfont}
+\renewcommand{\small}{\fontsize{8.2}{9.5}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{7.7}{9.0}\selectfont}
+\renewcommand{\large}{\fontsize{10.8}{12.6}\selectfont}
+\renewcommand{\Large}{\fontsize{12.8}{14.6}\selectfont}
+\renewcommand{\LARGE}{\fontsize{16.0}{18.4}\selectfont}
 
 \hypersetup{
   colorlinks=true,
   urlcolor=accent,
   linkcolor=accent,
+  citecolor=accent,
   pdfborder={0 0 0},
   pdftitle={Chirayu Babu Jaysawal - Resume},
   pdfauthor={Chirayu Babu Jaysawal},
 }
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{1pt}
+\setlength{\parskip}{1.0pt}
 
-% ---- Header: left-aligned, strong name, defined headline ----
-\newcommand{\resumeName}[1]{{\huge\bfseries\color{accent} #1}}
-\newcommand{\resumeHeadline}[1]{{\large\color{slate} #1}}
-\newcommand{\ResumeTop}[4]{%
-\noindent\resumeName{#1}\\[1pt]
-\noindent\resumeHeadline{#2}\\[6pt]
-\noindent{\normalsize #3}\\[1pt]
-\noindent{\normalsize #4}\\[3pt]
-\noindent\textcolor{accent}{\rule{\textwidth}{1pt}}
+\newcommand{\ResumeSep}{\hspace{0.5em}\textcolor{accent}{\textbullet}\hspace{0.5em}}
+
+% ---- Header: left-aligned wordmark with an accent band ----
+\newcommand{\ResumeTop}[5]{%
+\noindent{\color{ink}\LARGE\bfseries #1}\\[2.2pt]
+{\color{accent}\large\bfseries #2}\\[3.6pt]
+{\footnotesize #3}\\[0.4pt]
+{\footnotesize\color{ink} #4}\\[0.4pt]
+{\footnotesize #5}%
+\par\vspace{3pt}\noindent\textcolor{accent}{\rule{\textwidth}{2pt}}\par\vspace{1pt}%
 }
 
-% ---- Section headings: accent color with a thin baseline rule ----
-\titleformat{\section}{\color{accent}\bfseries}{}{0pt}{}[\vspace{1pt}\textcolor{accent}{\rule[0.55ex]{\textwidth}{0.5pt}}]
-\titlespacing*{\section}{0pt}{5pt}{2pt}
+% ---- Section headings: accent colour, right-aligned over a two-tone rule ----
+\newcommand{\ModernRule}{%
+  \noindent\textcolor{accentsoft}{\rule{\textwidth}{2pt}}%
+  \nobreak\hspace{-\textwidth}\nobreak\textcolor{accent}{\rule{0.32\textwidth}{2pt}}}
+\titleformat{\section}{\color{accent}\bfseries\fontsize{9.8}{11.2}\selectfont\filright}{}{0pt}{}%
+  [\vspace{0.5pt}\ModernRule]
+\titlespacing*{\section}{0pt}{4pt}{1pt}
 
-\setlist[itemize]{leftmargin=15pt,itemsep=0.3pt,topsep=0.5pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=15pt,itemsep=0.3pt,topsep=0.5pt}
+% ---- Content blocks (styling lives here, structure is generated) ----
+\newcommand{\ResumeParagraph}[1]{\noindent #1\par}
+\newcommand{\ResumeEntryHead}[2]{\noindent{\color{ink}\bfseries #1}\hfill{\color{accent}\bfseries #2}\par}
+\newcommand{\ResumeEntrySub}[2]{\noindent{\itshape #1}\hfill #2\par}
+\newcommand{\ResumeSkillLine}[2]{\noindent{\color{accent}\bfseries #1}\hspace{0.4em}#2\par}
+\newcommand{\ResumeProjectHead}[2]{\needspace{2\baselineskip}\noindent{\color{ink}\bfseries #1}%
+  \hfill{\color{accent}\itshape\small #2}\par}
+\newcommand{\ResumeProjectDesc}[1]{\noindent #1\par}
+\newcommand{\ResumeSoftSkills}[1]{\noindent #1\par}
 
-% Two-column technical skills to maximize density.
-\newenvironment{resumeskills}
-  {\begin{multicols}{2}\setlength{\columnsep}{22pt}}
-  {\end{multicols}}
+\newenvironment{resumebullets}%
+  {\begin{itemize}[leftmargin=12pt,itemsep=0pt,topsep=0pt,parsep=0pt,partopsep=0pt,
+    label=\textcolor{accent}{\textbullet}]}%
+  {\end{itemize}}
+
+% Labelled single-column skill rows for the airier modern look.
+\newenvironment{resumeskills}%
+  {\setlength{\parskip}{0.8pt}}%
+  {}

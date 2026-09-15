@@ -19,6 +19,14 @@ GENERATED = ROOT / "generated"
 DIST = ROOT / "dist"
 REQUIRED_PERSONAL = {"name", "headline", "email", "github", "linkedin", "location"}
 REQUIRED_SKILLS = {"languages", "frontend", "backend", "databases", "ai_ml", "tools"}
+SKILL_TITLES = {"ai_ml": "AI / ML"}
+
+
+def skill_title(category: str) -> str:
+    """Human-readable skill category label (keeps acronyms intact)."""
+    if category in SKILL_TITLES:
+        return SKILL_TITLES[category]
+    return category.replace("_", " ").title()
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -74,8 +82,14 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
     email_link = rf"\href{{mailto:{personal['email']}}}{{{latex_escape(personal['email'])}}}"
     github_link = rf"\href{{{personal['github']}}}{{GitHub}}"
     linkedin_link = rf"\href{{{personal['linkedin']}}}{{LinkedIn}}"
+    portfolio_url = str(personal.get("portfolio", "") or "").strip()
+    portfolio_link = rf"\href{{{portfolio_url}}}{{Portfolio}}" if portfolio_url else ""
     location = latex_escape(personal["location"])
-    VSEP = r"$|$"
+    affiliation = latex_escape(personal.get("university", ""))
+    contact = email_link + r" \ResumeSep " + location
+    links = github_link + r" \ResumeSep " + linkedin_link
+    if portfolio_link:
+        links += r" \ResumeSep " + portfolio_link
 
     lines = [
         r"\documentclass[10pt]{article}",
@@ -85,70 +99,67 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
         r"\usepackage{enumitem}",
         r"\usepackage{geometry}",
         r"\input{templates/" + template + r".tex}",
+        r"\pagestyle{empty}",
         r"\begin{document}",
-        r"\ResumeTop{",
-        rf"  {latex_escape(personal['name'])}",
-        r"}{",
-        rf"  {latex_escape(personal['headline'])}",
-        r"}{",
-        rf"  {email_link} \,{VSEP}\, {location}",
-        r"}{",
-        rf"  {github_link} \quad {linkedin_link}",
-        r"}",
+        rf"\ResumeTop{{{latex_escape(personal['name'])}}}{{{latex_escape(personal['headline'])}}}"
+        rf"{{{contact}}}{{{affiliation}}}{{{links}}}",
         r"\section*{Profile}",
-        latex_escape(profile["summary"]),
+        rf"\ResumeParagraph{{{latex_escape(profile['summary'])}}}",
         r"\section*{Education}",
     ]
     for education in data.get("education", []):
-        lines.append(rf"\textbf{{{latex_escape(education['degree'])}}} \hfill {latex_escape(education.get('year', ''))}\\")
-        if education.get("institution"):
-            institution = latex_escape(education["institution"])
-            if education.get("location"):
-                institution += ", " + latex_escape(education["location"])
-            lines.append(rf"{institution}\\")
-        if education.get("score"):
-            lines.append(latex_escape(education["score"]) + r"\par")
+        degree = latex_escape(education["degree"])
+        year = latex_escape(education.get("year", ""))
+        institution = latex_escape(education.get("institution", ""))
+        place = latex_escape(education.get("location", ""))
+        score = latex_escape(education.get("score", ""))
+        if institution:
+            detail = institution + (", " + place if place else "")
+            lines.append(rf"\ResumeEntryHead{{{degree}}}{{{year}}}")
+            lines.append(rf"\ResumeEntrySub{{{detail}}}{{{score}}}")
+        else:
+            right = r" \ResumeSep ".join(part for part in (score, year) if part)
+            lines.append(rf"\ResumeEntryHead{{{degree}}}{{{right}}}")
     lines.append(r"\section*{Technical Skills}")
     lines.append(r"\begin{resumeskills}")
     for category in profile["skills"]:
         values = data["skills"].get(category, [])
         if not values:
             continue
-        lines.append(rf"\textbf{{{latex_escape(category.replace('_', ' ').title())}}}: {latex_escape(', '.join(values))}\\")
+        label = skill_title(category)
+        lines.append(rf"\ResumeSkillLine{{{label}}}{{{latex_escape(', '.join(values))}}}")
     lines.append(r"\end{resumeskills}")
     lines.append(r"\section*{Projects}")
     for project in selected:
-        tech = project.get("tech") or []
-        title_line = "\\textbf{" + latex_escape(project["title"]) + "}"
-        if tech:
-            title_line += r" \hfill {\small\itshape " + latex_escape(", ".join(tech)) + "}"
-        lines.append(r"\noindent " + title_line + r"\\")
-        lines.append(r"\noindent " + latex_escape(project.get("description", "")) + r"\par")
+        tech = ", ".join(project.get("tech") or [])
+        lines.append(rf"\ResumeProjectHead{{{latex_escape(project['title'])}}}{{{latex_escape(tech)}}}")
+        lines.append(rf"\ResumeProjectDesc{{{latex_escape(project.get('description', ''))}}}")
         bullets = project.get("bullets") or []
         if bullets:
-            lines.append(r"\begin{itemize}")
-            lines.extend(r"  \item " + latex_escape(bullet) for bullet in bullets)
-            lines.append(r"\end{itemize}")
+            lines.append(r"\begin{resumebullets}")
+            lines.extend(r"\item " + latex_escape(bullet) for bullet in bullets)
+            lines.append(r"\end{resumebullets}")
     if data.get("achievements"):
         lines.append(r"\section*{Achievements}")
-        lines.append(r"\begin{itemize}")
-        lines.extend(r"  \item " + latex_escape(item) for item in data["achievements"])
-        lines.append(r"\end{itemize}")
+        lines.append(r"\begin{resumebullets}")
+        lines.extend(r"\item " + latex_escape(item) for item in data["achievements"])
+        lines.append(r"\end{resumebullets}")
     if data.get("certifications"):
         lines.append(r"\section*{Certifications}")
-        lines.append(r"\begin{itemize}")
+        lines.append(r"\begin{resumebullets}")
         for item in data["certifications"]:
             name = item.get("name") if isinstance(item, dict) else item
-            lines.append(r"  \item " + latex_escape(name))
-        lines.append(r"\end{itemize}")
+            lines.append(r"\item " + latex_escape(name))
+        lines.append(r"\end{resumebullets}")
     if data.get("experience"):
         lines.append(r"\section*{Experience}")
         for item in data["experience"]:
-            lines.append(rf"\textbf{{{latex_escape(item['position'])}}}, {latex_escape(item['organization'])}\\")
-            lines.append(latex_escape(item["description"]) + r"\par")
+            lines.append(rf"\ResumeEntryHead{{{latex_escape(item['position'])}}}{{{latex_escape(item.get('period', ''))}}}")
+            lines.append(rf"\ResumeEntrySub{{{latex_escape(item['organization'])}}}{{{latex_escape(item.get('location', ''))}}}")
+            lines.append(rf"\ResumeProjectDesc{{{latex_escape(item['description'])}}}")
     if data.get("soft_skills"):
         lines.append(r"\section*{Soft Skills}")
-        lines.append(r"\noindent " + latex_escape(", ".join(data["soft_skills"])) + r"\par")
+        lines.append(rf"\ResumeSoftSkills{{{latex_escape(', '.join(data['soft_skills']))}}}")
     lines.extend([r"\end{document}", ""])
     return "\n".join(lines)
 

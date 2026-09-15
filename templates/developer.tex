@@ -1,11 +1,12 @@
 % ================================================================
 % Developer template
-% Classic, centered serif layout — visual design follows the
-% developer-style reference resume (layout only; all content is
-% Chirayu's own data). Times serif, centered header and centered
-% section headings, two-column skills, compact vertical rhythm.
+% Classic centred serif layout — the visual design follows the
+% developer-style reference resume (layout only; every piece of
+% content is Chirayu's own master data). Times serif, centred
+% header, centred small-caps section headings over full rules,
+% education with right-aligned year/location, two-column skills.
 % ================================================================
-\geometry{letterpaper, margin=0.42in, top=0.38in, bottom=0.38in}
+\geometry{letterpaper, margin=0.40in, top=0.30in, bottom=0.28in}
 \usepackage{newtxtext}               % Times-style serif
 \usepackage[T1]{fontenc}
 \usepackage{multicol}
@@ -13,11 +14,15 @@
 \usepackage{enumitem}
 \usepackage{titlesec}
 
-\definecolor{ink}{RGB}{25,25,25}
-\definecolor{rulecolor}{RGB}{55,55,55}
+\definecolor{ink}{RGB}{22,22,22}
+\definecolor{rulecolor}{RGB}{60,60,60}
 
-% Compact but readable body type (dense one-page layout).
-\renewcommand{\normalsize}{\fontsize{9.2}{10.8}\selectfont}
+\renewcommand{\normalsize}{\fontsize{8.9}{10.4}\selectfont}
+\renewcommand{\small}{\fontsize{8.2}{9.5}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{7.7}{9.0}\selectfont}
+\renewcommand{\large}{\fontsize{10.6}{12.4}\selectfont}
+\renewcommand{\Large}{\fontsize{13.0}{14.8}\selectfont}
+\renewcommand{\LARGE}{\fontsize{15.2}{17.4}\selectfont}
 
 \hypersetup{
   colorlinks=true,
@@ -28,30 +33,43 @@
 }
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{1pt}
+\setlength{\parskip}{1.0pt}
 
-% ---- Header: centered classic ----
-\newcommand{\resumeName}[1]{{\LARGE\bfseries #1}}
-\newcommand{\resumeHeadline}[1]{{\normalsize\bfseries #1}}
-\newcommand{\ResumeTop}[4]{%
+\newcommand{\ResumeSep}{\hspace{0.35em}\textcolor{rulecolor}{\textbar}\hspace{0.35em}}
+
+% ---- Header: centred classic ----
+\newcommand{\ResumeTop}[5]{%
 \begin{center}
-  {\LARGE\bfseries #1}\\[1pt]
-  {\normalsize\bfseries #2}\\[5pt]
-  {\small #3}\\[1pt]
-  {\footnotesize #4}
+  {\LARGE\bfseries #1}\\[2.4pt]
+  {\large\bfseries #2}\\[3.2pt]
+  {\footnotesize #3}\\[0.4pt]
+  {\footnotesize #4}\\[0.4pt]
+  {\footnotesize #5}
 \end{center}\vspace{1pt}
-\noindent\rule{\textwidth}{1pt}
+\noindent\textcolor{rulecolor}{\rule{\textwidth}{0.8pt}}\par\vspace{1pt}%
 }
 
-% ---- Section headings: centered with a full-width rule ----
+% ---- Section headings: centred small caps with a full-width rule ----
 \titleformat{\section}[display]
-{\filcenter\bfseries\color{ink}}{}{0pt}{}[\vspace{1pt}\textcolor{rulecolor}{\titlerule}]
-\titlespacing*{\section}{0pt}{4pt}{1.5pt}
+  {\filcenter\bfseries\scshape\color{ink}\fontsize{9.8}{11.2}\selectfont}{}{0pt}{}%
+  [\vspace{0.5pt}\textcolor{rulecolor}{\titlerule}]
+\titlespacing*{\section}{0pt}{4pt}{1pt}
 
-\setlist[itemize]{leftmargin=14pt,itemsep=0pt,topsep=0.5pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=14pt,itemsep=0pt,topsep=0.5pt}
+% ---- Content blocks (structure is generated; styling lives here) ----
+\newcommand{\ResumeParagraph}[1]{\noindent #1\par}
+\newcommand{\ResumeEntryHead}[2]{\noindent\textbf{#1}\hfill #2\par}
+\newcommand{\ResumeEntrySub}[2]{\noindent\itshape #1\hfill #2\par}
+\newcommand{\ResumeSkillLine}[2]{\textbf{#1}: #2\\[0.6pt]}
+\newcommand{\ResumeProjectHead}[2]{\noindent\textbf{#1}%
+  \hfill{\itshape\small #2}\par}
+\newcommand{\ResumeProjectDesc}[1]{\noindent #1\par}
+\newcommand{\ResumeSoftSkills}[1]{\noindent #1\par}
 
-% Two-column technical skills to maximize density.
-\newenvironment{resumeskills}
-  {\begin{multicols}{2}\setlength{\columnsep}{20pt}}
+\newenvironment{resumebullets}%
+  {\begin{itemize}[leftmargin=13pt,itemsep=0pt,topsep=0pt,parsep=0pt,partopsep=0pt]}%
+  {\end{itemize}}
+
+% Two-column technical skills to maximise density.
+\newenvironment{resumeskills}%
+  {\begin{multicols}{2}\setlength{\columnsep}{20pt}}%
   {\end{multicols}}
