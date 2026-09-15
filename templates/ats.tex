@@ -5,7 +5,7 @@
 % Dense but readable: Palatino serif, ruled section headings,
 % monochrome palette, two-column skills, compact spacing.
 % ================================================================
-\geometry{letterpaper, margin=0.44in, top=0.42in, bottom=0.42in}
+\geometry{letterpaper, margin=0.41in, top=0.40in, bottom=0.40in}
 \usepackage{mathpazo}               % Palatino serif
 \usepackage[T1]{fontenc}
 \usepackage{multicol}
@@ -17,7 +17,7 @@
 \definecolor{rulecolor}{RGB}{60,60,60}
 
 % Compact but readable body type (dense one-page layout).
-\renewcommand{\normalsize}{\fontsize{9.2}{11}\selectfont}
+\renewcommand{\normalsize}{\fontsize{9.2}{10.8}\selectfont}
 
 % Links rendered cleanly (no boxes) and in neutral ink.
 \hypersetup{
@@ -29,7 +29,7 @@
 }
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{1.5pt}
+\setlength{\parskip}{1pt}
 
 % ---- Header: centered, clearly separated hierarchy ----
 \newcommand{\resumeName}[1]{{\LARGE\bfseries #1}}
@@ -46,7 +46,7 @@
 
 % ---- Section headings: bold small caps with a horizontal rule ----
 \titleformat{\section}{\color{ink}\bfseries\scshape}{}{0pt}{}[\vspace{1pt}\textcolor{rulecolor}{\titlerule}]
-\titlespacing*{\section}{0pt}{7pt}{2pt}
+\titlespacing*{\section}{0pt}{6pt}{1.5pt}
 
 \setlist[itemize]{leftmargin=12pt,itemsep=0pt,topsep=1pt,parsep=0pt}
 \setlist[enumerate]{leftmargin=12pt,itemsep=0pt,topsep=1pt}
