@@ -109,11 +109,13 @@ def render(data: dict[str, Any], profile: dict[str, Any], template: str) -> str:
         if education.get("score"):
             lines.append(latex_escape(education["score"]) + r"\par")
     lines.append(r"\section*{Technical Skills}")
+    lines.append(r"\begin{resumeskills}")
     for category in profile["skills"]:
         values = data["skills"].get(category, [])
         if not values:
             continue
         lines.append(rf"\textbf{{{latex_escape(category.replace('_', ' ').title())}}}: {latex_escape(', '.join(values))}\\")
+    lines.append(r"\end{resumeskills}")
     lines.append(r"\section*{Projects}")
     for project in selected:
         tech = project.get("tech") or []

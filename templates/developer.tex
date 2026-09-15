@@ -2,18 +2,22 @@
 % Developer template
 % Classic, centered serif layout — visual design follows the
 % developer-style reference resume (layout only; all content is
-% Chirayu's own data). Times serif, centered header, centered
-% section headings, compact vertical rhythm.
+% Chirayu's own data). Times serif, centered header and centered
+% section headings, two-column skills, compact vertical rhythm.
 % ================================================================
-\geometry{letterpaper, margin=0.55in, top=0.47in, bottom=0.47in}
+\geometry{letterpaper, margin=0.46in, top=0.42in, bottom=0.42in}
 \usepackage{newtxtext}               % Times-style serif
 \usepackage[T1]{fontenc}
+\usepackage{multicol}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{titlesec}
 
 \definecolor{ink}{RGB}{25,25,25}
 \definecolor{rulecolor}{RGB}{55,55,55}
+
+% Compact but readable body type (dense one-page layout).
+\renewcommand{\normalsize}{\fontsize{9.2}{11}\selectfont}
 
 \hypersetup{
   colorlinks=true,
@@ -24,25 +28,30 @@
 }
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{2pt}
+\setlength{\parskip}{1.5pt}
 
 % ---- Header: centered classic ----
 \newcommand{\resumeName}[1]{{\LARGE\bfseries #1}}
 \newcommand{\resumeHeadline}[1]{{\normalsize\bfseries #1}}
 \newcommand{\ResumeTop}[4]{%
 \begin{center}
-  {\LARGE\bfseries #1}\\[2pt]
-  {\normalsize\bfseries #2}\\[6pt]
+  {\LARGE\bfseries #1}\\[1pt]
+  {\normalsize\bfseries #2}\\[5pt]
   {\small #3}\\[1pt]
   {\footnotesize #4}
-\end{center}\vspace{2pt}
+\end{center}\vspace{1pt}
 \noindent\rule{\textwidth}{1pt}
 }
 
 % ---- Section headings: centered with a full-width rule ----
 \titleformat{\section}[display]
-{\filcenter\large\bfseries\color{ink}}{}{0pt}{}[\vspace{2pt}\textcolor{rulecolor}{\titlerule}]
-\titlespacing*{\section}{0pt}{8pt}{2pt}
+{\filcenter\bfseries\color{ink}}{}{0pt}{}[\vspace{1pt}\textcolor{rulecolor}{\titlerule}]
+\titlespacing*{\section}{0pt}{7pt}{1.5pt}
 
-\setlist[itemize]{leftmargin=15pt,itemsep=1pt,topsep=2pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=15pt,itemsep=1pt,topsep=2pt}
+\setlist[itemize]{leftmargin=14pt,itemsep=0pt,topsep=1pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=14pt,itemsep=0pt,topsep=1pt}
+
+% Two-column technical skills to maximize density.
+\newenvironment{resumeskills}
+  {\begin{multicols}{2}\setlength{\columnsep}{20pt}}
+  {\end{multicols}}

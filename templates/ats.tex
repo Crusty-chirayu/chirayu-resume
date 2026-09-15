@@ -3,17 +3,21 @@
 % Conservative, professional, ATS-friendly serif layout.
 % Visual reference: Chirayu AI Engineer / Full-Stack resume.
 % Dense but readable: Palatino serif, ruled section headings,
-% monochrome palette, compact spacing.
+% monochrome palette, two-column skills, compact spacing.
 % ================================================================
-\geometry{letterpaper, margin=0.5in, top=0.47in, bottom=0.47in}
-\usepackage[scaled=0.94]{mathpazo}   % Palatino serif
+\geometry{letterpaper, margin=0.44in, top=0.42in, bottom=0.42in}
+\usepackage{mathpazo}               % Palatino serif
 \usepackage[T1]{fontenc}
+\usepackage{multicol}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{titlesec}
 
 \definecolor{ink}{RGB}{25,25,25}
 \definecolor{rulecolor}{RGB}{60,60,60}
+
+% Compact but readable body type (dense one-page layout).
+\renewcommand{\normalsize}{\fontsize{9.2}{11}\selectfont}
 
 % Links rendered cleanly (no boxes) and in neutral ink.
 \hypersetup{
@@ -25,24 +29,29 @@
 }
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{2pt}
+\setlength{\parskip}{1.5pt}
 
 % ---- Header: centered, clearly separated hierarchy ----
 \newcommand{\resumeName}[1]{{\LARGE\bfseries #1}}
 \newcommand{\resumeHeadline}[1]{{\normalsize\itshape #1}}
 \newcommand{\ResumeTop}[4]{%
 \begin{center}
-  {\LARGE\bfseries #1}\\[3pt]
-  {\normalsize\itshape #2}\\[5pt]
+  {\LARGE\bfseries #1}\\[2pt]
+  {\normalsize\itshape #2}\\[4pt]
   {\small #3}\\[1pt]
-  {\scriptsize #4}
-\end{center}\vspace{2pt}
-\noindent\textcolor{rulecolor}{\rule{\textwidth}{1.1pt}}
+  {\footnotesize #4}
+\end{center}\vspace{1pt}
+\noindent\textcolor{rulecolor}{\rule{\textwidth}{1pt}}
 }
 
 % ---- Section headings: bold small caps with a horizontal rule ----
-\titleformat{\section}{\color{ink}\bfseries\scshape\large}{}{0pt}{}[\vspace{2pt}\textcolor{rulecolor}{\titlerule}]
-\titlespacing*{\section}{0pt}{9pt}{3pt}
+\titleformat{\section}{\color{ink}\bfseries\scshape}{}{0pt}{}[\vspace{1pt}\textcolor{rulecolor}{\titlerule}]
+\titlespacing*{\section}{0pt}{7pt}{2pt}
 
-\setlist[itemize]{leftmargin=13pt,itemsep=1pt,topsep=2pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=13pt,itemsep=1pt,topsep=2pt}
+\setlist[itemize]{leftmargin=12pt,itemsep=0pt,topsep=1pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=12pt,itemsep=0pt,topsep=1pt}
+
+% Two-column technical skills to maximize density.
+\newenvironment{resumeskills}
+  {\begin{multicols}{2}\setlength{\columnsep}{20pt}}
+  {\end{multicols}}

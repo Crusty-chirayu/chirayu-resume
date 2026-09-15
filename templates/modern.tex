@@ -2,18 +2,23 @@
 % Modern template
 % Clean, contemporary sans-serif layout with a restrained blue accent.
 % Visual reference: Chirayu Full-Stack resume.
-% Balanced whitespace, left-aligned header, thin baseline rules.
+% Left-aligned header, accent-colored headings with thin baseline
+% rules, two-column skills, balanced one-page density.
 % ================================================================
-\geometry{letterpaper, margin=0.58in, top=0.5in, bottom=0.5in}
+\geometry{letterpaper, margin=0.48in, top=0.44in, bottom=0.44in}
 \usepackage[scaled=0.95]{helvet}     % Helvetica-style sans serif
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage[T1]{fontenc}
+\usepackage{multicol}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{titlesec}
 
 \definecolor{accent}{RGB}{17,72,106}
 \definecolor{slate}{RGB}{85,92,102}
+
+% Compact but readable body type (balanced one-page layout).
+\renewcommand{\normalsize}{\fontsize{9.4}{11.4}\selectfont}
 
 \hypersetup{
   colorlinks=true,
@@ -25,22 +30,27 @@
 }
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{3pt}
+\setlength{\parskip}{2pt}
 
 % ---- Header: left-aligned, strong name, defined headline ----
 \newcommand{\resumeName}[1]{{\huge\bfseries\color{accent} #1}}
 \newcommand{\resumeHeadline}[1]{{\large\color{slate} #1}}
 \newcommand{\ResumeTop}[4]{%
-\noindent\resumeName{#1}\\[2pt]
-\noindent\resumeHeadline{#2}\\[8pt]
+\noindent\resumeName{#1}\\[1pt]
+\noindent\resumeHeadline{#2}\\[6pt]
 \noindent{\normalsize #3}\\[1pt]
-\noindent{\normalsize #4}\\[4pt]
+\noindent{\normalsize #4}\\[3pt]
 \noindent\textcolor{accent}{\rule{\textwidth}{1pt}}
 }
 
 % ---- Section headings: accent color with a thin baseline rule ----
-\titleformat{\section}{\color{accent}\bfseries}{}{0pt}{}[\vspace{1pt}\textcolor{accent}{\rule[0.55ex]{\textwidth}{0.6pt}}]
-\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat{\section}{\color{accent}\bfseries}{}{0pt}{}[\vspace{1pt}\textcolor{accent}{\rule[0.55ex]{\textwidth}{0.5pt}}]
+\titlespacing*{\section}{0pt}{7pt}{2.5pt}
 
-\setlist[itemize]{leftmargin=16pt,itemsep=2pt,topsep=3pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=16pt,itemsep=2pt,topsep=3pt}
+\setlist[itemize]{leftmargin=15pt,itemsep=1pt,topsep=1.5pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=15pt,itemsep=1pt,topsep=1.5pt}
+
+% Two-column technical skills to maximize density.
+\newenvironment{resumeskills}
+  {\begin{multicols}{2}\setlength{\columnsep}{22pt}}
+  {\end{multicols}}
